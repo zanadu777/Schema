@@ -1,0 +1,46 @@
+﻿<Window x:Class="Schema.Views.QueryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:designTime="clr-namespace:Schema.Views.DesignTime"
+        xmlns:converters="clr-namespace:Schema.Views.Converters"
+        mc:Ignorable="d"
+        d:DataContext="{x:Static designTime:DesignTimeData.QueryVM}"
+        Title="{Binding ConnectionInfo.FriendlyName}" Height="300" Width="300" Icon="Resources/dbExecute.png"  >
+    <Window.Resources >
+        <converters:TextSelectionConverter x:Key="SelectionConverter" />
+    </Window.Resources>
+    
+    <DockPanel>
+        <Menu DockPanel.Dock ="Top"></Menu>
+        <ToolBarTray DockPanel.Dock ="Top">
+            <ToolBar>
+                <Button Content ="! Execute" Name="btExecute" Click="btExecute_Click" />
+            </ToolBar>
+        </ToolBarTray>
+<StatusBar DockPanel.Dock="Bottom">
+            <TextBlock  Text="{Binding QueryTime}"/>
+            <Separator/>
+            <TextBlock Text="Rows" HorizontalAlignment="Right"/>
+</StatusBar>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="86*"/>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="177*"/>
+            </Grid.RowDefinitions>
+            <avalonEdit:TextEditor
+    xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+    Name="txtQuery"
+    FontFamily="Consolas"
+    SyntaxHighlighting="Sql"
+    FontSize="10pt" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
+     <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment ="Stretch"/>
+       <DataGrid Grid.Row ="2"   AutoGenerateColumns="True" ItemsSource ="{Binding QueryResult.DataTable}" CanUserAddRows="False" >
+
+            </DataGrid>
+        </Grid>
+       </DockPanel>
+</Window>

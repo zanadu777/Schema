@@ -1,0 +1,136 @@
+﻿<Window x:Class="Schema.Views.ConnectionManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:designTime="clr-namespace:Schema.Views.DesignTime"
+        xmlns:common="clr-namespace:Schema.Common;assembly=Schema.Common"
+        mc:Ignorable="d"
+         d:DataContext="{x:Static designTime:DesignTimeData.ConnectionManagerVM}"
+        Title="ConnectionManagerWindow" Height="300" Width="500" Name="Window" Icon="Resources/Dbs.ico">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <!--<i:InvokeCommandAction Command="{Binding LoadConnectionsCommand}" />-->
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <DockPanel>
+        <Menu DockPanel.Dock ="Top">
+            <MenuItem Header="Connections">
+                <MenuItem Header="Add Connection" Command="{Binding CreateConnectionCommand }">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/Add-New.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save Connections" Command="{Binding SaveConnectionsCommand }" >
+                    <MenuItem.Icon>
+                        <Image Source="Resources/Save.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header ="Reload Connections" Command ="{Binding LoadConnectionsCommand}"></MenuItem>
+                <MenuItem Header="Export All Connections" Command="{Binding ExportConnectionsCommand}"/>
+                <MenuItem Header="Import Connections" Command="{Binding ImportConnectionsCommand}"/>
+                <MenuItem Header="Remove All Connections" Command ="{Binding RemoveAllConnectionsCommand}"/>
+                <MenuItem Header="Test AllConnections" Command ="{Binding TestAllConnectionsCommand}"/>
+                <MenuItem Header ="Duplicate Connection" Command="{Binding DuplicateConnectionsCommand}"/>
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="171*"/>
+            </Grid.ColumnDefinitions>
+            <ListBox ItemsSource ="{Binding Connections}" Name ="LstConnections" SelectedIndex="0"  >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding ShowSchemaBrowserWindowCommand}"
+                                               CommandParameter ="{Binding ElementName = LstConnections, Path = SelectedValue}"/>
+                    </i:EventTrigger>
+
+                    <i:EventTrigger EventName="KeyDown">
+                        <i:InvokeCommandAction Command ="{Binding RemoveConnectionsCommand}" 
+                                               CommandParameter ="{Binding ElementName = LstConnections, Path = SelectedItems}" />
+                    </i:EventTrigger>
+
+
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding ConnectionsSelectedCommand}"  CommandParameter ="{Binding ElementName = LstConnections, Path = SelectedItems}"/>
+                        
+                    </i:EventTrigger>
+
+                    <i:EventTrigger EventName="SelectionChanged">
+                        
+                        <i:InvokeCommandAction Command="{Binding ConnectionSelectedCommand}"  CommandParameter ="{Binding ElementName = LstConnections, Path = SelectedItem}"/>
+                    </i:EventTrigger>
+
+                </i:Interaction.Triggers>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="40">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width ="40"/>
+                                <ColumnDefinition Width ="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column ="0" Source="Resources/MS-SQL.png"/>
+                            <Image Name="StatusIcon" Grid.Column ="0" HorizontalAlignment ="Left" VerticalAlignment="Top" Source="Resources/unknown.png" Width="12" />
+                            <Image Name="DirtyIcon"  HorizontalAlignment="Left" VerticalAlignment ="Bottom" Grid.Column="0"   Width="12"/>
+                            <TextBlock  Text="{Binding FriendlyName}" Grid.Column="2" FontWeight ="Bold"
+                                         Margin="4,0,0,0"/>
+                        </Grid>
+                        <DataTemplate.Triggers >
+                            <DataTrigger Binding="{Binding Path=Status}" Value="Connected">
+                                <Setter TargetName="StatusIcon" Property="Source" Value="Resources/ok.png"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=Status}" Value="Disconnected">
+                                <Setter TargetName="StatusIcon" Property="Source" Value="Resources/unavailable.png"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=Status}" Value="Unknown">
+                                <Setter TargetName="StatusIcon" Property="Source" Value="Resources/unknown.png"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=Status}" Value="Testing">
+                                <Setter TargetName="StatusIcon" Property="Source" Value="Resources/investigating.png"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsModified}" Value="True">
+                                <Setter TargetName="DirtyIcon" Property="Source" Value="Resources/Dirty.png"/>
+                            </DataTrigger>
+
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+            <ContentControl Grid.Column="2" Content="{Binding ElementName = LstConnections, Path=SelectedValue}" Name="CurrentConnection"
+                            >
+                <ContentControl.ContentTemplate>
+                    <DataTemplate >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="23" />
+                                <RowDefinition  Height="23"/>
+                                <RowDefinition  Height="23"/>
+                                <RowDefinition  Height="23"/>
+                                <RowDefinition  Height="23"/>
+                                <RowDefinition  Height="Auto" MinHeight ="46"/>
+                                <RowDefinition  Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Friendly Name" VerticalAlignment ="Center" Margin="4,0,0,0"/>
+                            <TextBox  Grid.Row="1"  Margin="4,0,4,0" Text="{Binding FriendlyName,UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="Database Type" Grid.Row="2"  VerticalAlignment ="Center" Margin="4,0,0,0"/>
+                            <ComboBox  Grid.Row="3"  VerticalAlignment ="Center" Margin="4,0,4,0" 
+                                       ItemsSource="{x:Static common:DatabaseTypes.SupportedTypes}" SelectedValue ="{Binding DatabaseType }"/>
+                            <TextBlock Text="Connection String" Grid.Row="4"  VerticalAlignment ="Center" Margin="4,0,0,0"/>
+                            <TextBox  Grid.Row="5"  Margin="4,0,4,0" Text="{Binding ConnectionString,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
+                            <StackPanel Grid.Row="6" Orientation ="Horizontal" HorizontalAlignment ="Right" Height="24" VerticalAlignment="Top">
+                                <TextBlock Text="{Binding Status}"/>
+                                <Button Margin="4,4,4,0" Command="{Binding ElementName =Window , Path=DataContext.TestConnectionCommand}" 
+                                        CommandParameter ="{Binding ElementName=CurrentConnection, Path=Content }">Test Connection</Button>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ContentControl.ContentTemplate>
+            </ContentControl>
+        </Grid>
+    </DockPanel>
+</Window>

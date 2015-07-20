@@ -1,0 +1,210 @@
+﻿<Window x:Class="Schema.Views.SchemaBrowserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:designTime="clr-namespace:Schema.Views.DesignTime"
+        xmlns:selectors="clr-namespace:Schema.Views.Selectors"
+        mc:Ignorable="d"
+        d:DataContext="{x:Static designTime:DesignTimeData.SchemaBrowserVM}"
+        Title="{Binding CurrentDatabase.FriendlyName}" Height="369" Width="626" Icon="Resources/db.ico"
+       >
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadSchemaCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+
+        <DataTemplate x:Key ="TableTemplate">
+            <StackPanel Orientation="Horizontal" >
+                <Image Source="Resources/DBTable.png" Margin="2,2,2,2"  Width="11" Height="11"/>
+                <TextBlock  Text="{Binding Name}"/>
+            </StackPanel>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key ="ViewTemplate">
+            <StackPanel Orientation="Horizontal" >
+                <Image Source="Resources/View.png" Margin="2,2,2,2"  Width="11" Height="11"/>
+                <TextBlock  Text="{Binding Name}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key ="StoredProcTemplate">
+            <StackPanel Orientation="Horizontal" >
+                <Image Source="Resources/StoredProcedure.bmp" Margin="2,2,2,2"  Width="11" Height="11"/>
+                <TextBlock  Text="{Binding Name}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key ="ObjectTemplate">
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock  Text="{Binding Name}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <selectors:SchemaObjectTemplateSelector 
+        TableTemplate="{StaticResource TableTemplate}"
+        ViewTemplate="{StaticResource ViewTemplate}"
+        ObjectTemplate="{StaticResource ObjectTemplate}"
+        StoredProcTemplate="{StaticResource StoredProcTemplate}"
+        x:Key="SchemaObjectTemplateSelector" />
+
+
+        <DataTemplate x:Key ="TableDetails">
+            <Grid >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="23"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Rectangle Fill="#FF7FEEFF" />
+                <TextBlock Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                
+                <DataGrid  Grid.Row="1" ItemsSource ="{Binding Columns}" CanUserAddRows="False" 
+                                       HorizontalGridLinesBrush="#B3B3B3"
+          VerticalGridLinesBrush="#B3B3B3" AutoGenerateColumns="False"
+                                       >
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn x:Name="IconHeader"  Header="" CanUserResize="False">
+
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image x:Name="keyImage"/>
+                                    <DataTemplate.Triggers>
+
+                                        <DataTrigger Binding="{Binding Path=IsInPrimaryKey}" Value="False">
+                                            <Setter TargetName="keyImage" Property="Source" Value="{x:Null}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=IsInPrimaryKey}" Value="True">
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/PK.png" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Binding="{Binding Name}"   Header="Column Name"/>
+                        <DataGridTextColumn Binding="{Binding DisplayDataType}"   Header="Data Type"/>
+                        <DataGridCheckBoxColumn Binding="{Binding IsNullable}"   Header="Allow Nulls"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key ="ViewDetails">
+            <Grid >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="23"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Rectangle Fill="#FFC886CF" />
+                <TextBlock Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                <DataGrid  Grid.Row="1" ItemsSource ="{Binding Columns}" CanUserAddRows="False" 
+                                       HorizontalGridLinesBrush="#B3B3B3"
+          VerticalGridLinesBrush="#B3B3B3" AutoGenerateColumns="False"
+                                       >
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn x:Name="IconHeader"  Header="" CanUserResize="False">
+
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image x:Name="keyImage"/>
+                                    <DataTemplate.Triggers>
+
+                                        <DataTrigger Binding="{Binding Path=IsInPrimaryKey}" Value="False">
+                                            <Setter TargetName="keyImage" Property="Source" Value="{x:Null}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=IsInPrimaryKey}" Value="True">
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/PK.png" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Binding="{Binding Name}"   Header="Column Name"/>
+                        <DataGridTextColumn Binding="{Binding DisplayDataType}"   Header="Data Type"/>
+                        <DataGridCheckBoxColumn Binding="{Binding IsNullable}"   Header="Allow Nulls"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBox  Grid.Row="2" Text ="{Binding Definition}"/>
+            </Grid>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key ="ObjectDetails">
+            <Grid >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="23"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text ="{Binding Name}"/>
+                <TextBox  Grid.Row="1" Text ="{Binding Definition}"/>
+            </Grid>
+           
+        </DataTemplate>
+
+
+        <DataTemplate x:Key ="SprocDetails">
+            <Grid >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="23"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Rectangle Fill="#FF00EE2B" />
+                <TextBlock Grid.Row="0" Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0"/>
+
+                <TextBox  Grid.Row="1" Text ="{Binding Definition}"/>
+            </Grid>
+        </DataTemplate>
+
+
+        <selectors:SchemaObjectTemplateSelector 
+        TableTemplate="{StaticResource TableDetails}"
+        ViewTemplate="{StaticResource ViewDetails}"
+        ObjectTemplate="{StaticResource ObjectTemplate}"
+        StoredProcTemplate="{StaticResource SprocDetails}"
+        x:Key="SchemaObjectDetailsSelector" />
+
+    </Window.Resources>
+
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Windows" >
+                <MenuItem.Icon><Image Source="Resources/db.ico"/></MenuItem.Icon>
+                <MenuItem Header ="Open Query Window" 
+                          
+                          Command="{Binding ShowQueryWindowCommand}" 
+                          CommandParameter="{Binding CurrentDatabase}">
+                    <MenuItem.Icon><Image Source ="Resources/dbExecute.ico"/></MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header ="Open Connection Manager Window" 
+                          Command="{Binding  ShowConnectionManagerWindowCommand}" 
+                          CommandParameter="{Binding CurrentDatabase}"/>
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="240*"/>
+            </Grid.ColumnDefinitions>
+            <ListBox x:Name="lstObjects" ItemsSource="{Binding SchemaObjects}" Grid.Column="0" 
+                    ItemTemplateSelector="{StaticResource SchemaObjectTemplateSelector}" 
+                     >
+
+            </ListBox>
+            <GridSplitter Grid.Column ="1" HorizontalAlignment="Stretch" />
+            <ContentControl Grid.Column="2" 
+                            Content="{Binding ElementName=lstObjects,Path=SelectedValue }" 
+                            ContentTemplateSelector="{StaticResource SchemaObjectDetailsSelector}">
+             
+            </ContentControl>
+        </Grid>
+    </DockPanel>
+</Window>

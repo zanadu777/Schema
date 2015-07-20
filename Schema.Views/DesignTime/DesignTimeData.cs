@@ -1,0 +1,63 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Schema.Common.DataTypes;
+using Schema.Common.Interfaces;
+
+namespace Schema.Views.DesignTime
+{
+    public static class DesignTimeData
+    {
+        public static ISchemaBrowserVM SchemaBrowserVM
+        {
+            get
+            {
+                var vm = new DesignTimeSchemaBrowserVM();
+                vm.SchemaObjects.Add(new SchemaObject { Name = "User", SchemaObjectType = ESchemaObjectType.Table });
+                vm.SchemaObjects.Add(new SchemaObject { Name = "Card", SchemaObjectType = ESchemaObjectType.Table });
+                vm.SchemaObjects.Add(new SchemaObject { Name = "View", SchemaObjectType = ESchemaObjectType.View });
+                return vm;
+
+
+            }
+        }
+
+        public static IQueryVM QueryVM
+        {
+            get
+            {
+                var vm = new DesignTimeQueryVM();
+                vm.Query = "Select * from Bitmap";
+                var dt = new DataTable();
+                dt.Columns.Add(new DataColumn("ID", typeof(int)));
+                dt.Columns.Add(new DataColumn("Value", typeof(string)));
+
+                var row = dt.NewRow();
+                row[0] = 1;
+                row[1] = "Test";
+
+                vm.QueryResult.DataTable = dt;
+                return vm;
+            }
+        }
+
+
+        public static IConnectionManagerVM ConnectionManagerVM
+        {
+            get
+            {
+                var vm = new DesignTimeConnectionManagerVM();
+                vm.Connections.Add(new DatabaseConnectionInfo
+                                   {
+                                       FriendlyName = "Mercury FlashCard",
+                                       ConnectionString = "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"
+                                   });
+                return vm;
+            }
+        }
+    }
+}
