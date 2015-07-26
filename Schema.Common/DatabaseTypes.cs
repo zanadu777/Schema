@@ -12,6 +12,7 @@ namespace Schema.Common
         {
             SupportedTypes = new List<string>();
             SupportedTypes.Add("Sql Server");
+            SupportedTypes.Add("MySQL");
         }
         public static List<string> SupportedTypes { get; private set; }
 

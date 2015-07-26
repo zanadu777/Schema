@@ -35,12 +35,7 @@ namespace Schema.Launcher
                 conn.IsModified = false;
             }
 
-            //var model = new SchemaBrowserModel();
-            //ISchemaBrowserVM viewModel = new SchemaBrowserVM(model, GlobalData.ConnectionInfos[1]);
-            //viewModel.OnShowQueryWindow += OnShowQueryWindow;
-            //viewModel.OnShowConnectionManagerWindow += OnShowConnectionManagerWindow;
-            //MainWindow = new SchemaBrowserWindow(viewModel);
-            //MainWindow.Show();
+          
             ShowConnectionManager();
         }
 
@@ -55,7 +50,8 @@ namespace Schema.Launcher
         {
             Dictionary<string, IConnectivityTester> connector = new Dictionary<string, IConnectivityTester>();
             connector.Add("Sql Server", new ConnectivityTester());
-
+            connector.Add("MySQL", new Models.MySql.ConnectivityTester());
+           
             var viewModel = new ConnectionManagerVM(new ConnectionManagerModel(), connector);
             viewModel.OnShowSchemaBrowserWindow += OnShowSchemaBrowserWindow;
             viewModel.OnShowQueryWindow += OnShowQueryWindow;
@@ -65,7 +61,7 @@ namespace Schema.Launcher
 
         void OnShowQueryWindow(object sender, DatabaseConnectionInfoEventArgs e)
         {
-            var model = new QueryModel();
+            var model = GetQueryModel(e.ConnectionInfo);
             var viewModel = new QueryVM(model);
             viewModel.ConnectionInfo = e.ConnectionInfo;
             var window = new QueryWindow(viewModel);
@@ -74,12 +70,36 @@ namespace Schema.Launcher
 
         void OnShowSchemaBrowserWindow(object sender, DatabaseConnectionInfoEventArgs e)
         {
-            var model = new SchemaBrowserModel();
+            var model =   GetSchemaBrowserModel(e.ConnectionInfo );
             ISchemaBrowserVM viewModel = new SchemaBrowserVM(model, e.ConnectionInfo);
             viewModel.OnShowQueryWindow += OnShowQueryWindow;
             viewModel.OnShowConnectionManagerWindow += OnShowConnectionManagerWindow;
             var window = new SchemaBrowserWindow(viewModel);
             window.Show();
+        }
+
+        private ISchemaBrowserModel GetSchemaBrowserModel(DatabaseConnectionInfo connection)
+        {
+            switch (connection.DatabaseType)
+            {
+                case "Sql Server":
+                    return new SchemaBrowserModel();
+                case "MySQL":
+                    return new Models.MySql.SchemaBrowserModel();
+            }
+            return null;
+        }
+
+        private IQueryModel GetQueryModel(DatabaseConnectionInfo connection)
+        {
+            switch (connection.DatabaseType)
+            {
+                case "Sql Server":
+                    return new Models.SqlServer.QueryModel();
+                case "MySQL":
+                    return new Models.MySql.QueryModel();
+            }
+            return null;
         }
 
     }

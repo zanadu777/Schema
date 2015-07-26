@@ -136,6 +136,10 @@
       <Project>{8dd5b5a0-bd77-46e9-991b-1a406dd78f9d}</Project>
       <Name>Schema.Models.IsolatedStorage</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Schema.Models.MySql\Schema.Models.MySql.csproj">
+      <Project>{2467b276-ea98-4b6c-bf56-cc59d972590a}</Project>
+      <Name>Schema.Models.MySql</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Schema.Models.SqlServer\Schema.Models.SqlServer.csproj">
       <Project>{8c127482-62f2-4e99-8df0-fa878a1bd426}</Project>
       <Name>Schema.Models.SqlServer</Name>
