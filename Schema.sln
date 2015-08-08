@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schema.Common", "Schema.Common\Schema.Common.csproj", "{C0AFC76F-04C5-464F-A6A0-C79EAF1EAB6C}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schema.Models.IsolatedStorage", "Schema.Models.IsolatedStorage\Schema.Models.IsolatedStorage.csproj", "{8DD5B5A0-BD77-46E9-991B-1A406DD78F9D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schema.Models.MySql", "Schema.Models.MySql\Schema.Models.MySql.csproj", "{2467B276-EA98-4B6C-BF56-CC59D972590A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseModels", "DatabaseModels", "{F0AD9B23-E3EF-4375-BB38-233162FCFC26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,5 +56,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8C127482-62F2-4E99-8DF0-FA878A1BD426} = {F0AD9B23-E3EF-4375-BB38-233162FCFC26}
+		{2467B276-EA98-4B6C-BF56-CC59D972590A} = {F0AD9B23-E3EF-4375-BB38-233162FCFC26}
 	EndGlobalSection
 EndGlobal

@@ -59,8 +59,8 @@
                     <RowDefinition Height="23"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Rectangle Fill="#FF7FEEFF" />
-                <TextBlock Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                <Rectangle Fill="#FF303088" />
+                <TextBlock Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0" Foreground="White"/>
                 
                 <DataGrid  Grid.Row="1" ItemsSource ="{Binding Columns}" CanUserAddRows="False" 
                                        HorizontalGridLinesBrush="#B3B3B3"
@@ -79,6 +79,10 @@
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Path=IsInPrimaryKey}" Value="True">
                                             <Setter TargetName="keyImage" Property="Source" Value="Resources/PK.png" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=IsForeignKey}" Value="True">
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/FK.png" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
@@ -100,8 +104,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Rectangle Fill="#FFC886CF" />
-                <TextBlock Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                <Rectangle Fill="#FF4E2572" />
+                <TextBlock Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0" Foreground="White"/>
                 <DataGrid  Grid.Row="1" ItemsSource ="{Binding Columns}" CanUserAddRows="False" 
                                        HorizontalGridLinesBrush="#B3B3B3"
           VerticalGridLinesBrush="#B3B3B3" AutoGenerateColumns="False"
@@ -148,16 +152,23 @@
         </DataTemplate>
 
 
-        <DataTemplate x:Key ="SprocDetails">
+        <DataTemplate x:Key ="SprocDetails" >
             <Grid >
                 <Grid.RowDefinitions >
                     <RowDefinition Height="23"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Rectangle Fill="#FF00EE2B" />
-                <TextBlock Grid.Row="0" Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                <Rectangle Fill="#FF375D4C" />
+                <DataGrid  Grid.Row="1" ItemsSource ="{Binding Parameters}" CanUserAddRows="False" 
+                                       HorizontalGridLinesBrush="#B3B3B3"
+          VerticalGridLinesBrush="#B3B3B3" AutoGenerateColumns="True"
+                                       >
+                    
+                    </DataGrid>
+                    <TextBlock Grid.Row="0" Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0" Foreground="White" />
 
-                <TextBox  Grid.Row="1" Text ="{Binding Definition}"/>
+                <TextBox  Grid.Row="2" Text ="{Binding Definition}" />
             </Grid>
         </DataTemplate>
 

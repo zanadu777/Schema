@@ -43,6 +43,7 @@
     <Compile Include="DatabaseTypes.cs" />
     <Compile Include="DataTypes\DatabaseConnectionInfo.cs" />
     <Compile Include="DataTypes\DbColumn.cs" />
+    <Compile Include="DataTypes\DbForeignKey.cs" />
     <Compile Include="DataTypes\DbParameter.cs" />
     <Compile Include="DataTypes\DbStoredProc.cs" />
     <Compile Include="DataTypes\DbTable.cs" />

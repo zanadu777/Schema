@@ -18,6 +18,8 @@
         <ToolBarTray DockPanel.Dock ="Top">
             <ToolBar>
                 <Button Content ="! Execute" Name="btExecute" Click="btExecute_Click" />
+                <Button Command="{Binding ExportToExcelCommand}" ><Image Source="Resources/Microsoft-Excel.png"/>
+                </Button>
             </ToolBar>
         </ToolBarTray>
 <StatusBar DockPanel.Dock="Bottom">

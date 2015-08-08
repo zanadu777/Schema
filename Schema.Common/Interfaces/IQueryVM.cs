@@ -20,5 +20,7 @@ namespace Schema.Common.Interfaces
 
         TimeSpan QueryTime { get; set; }
 
+        ICommand ExportToExcelCommand { get; set; }
+
     }
 }

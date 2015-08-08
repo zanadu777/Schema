@@ -48,6 +48,11 @@ namespace Schema.Models.SqlServer
                             dt.Rows.Add(row);
                         }
                         result.DataTable = dt;
+
+                        foreach (DataColumn  column in dt.Columns)
+                        {
+                            Debug.WriteLine(string.Format("var {0}Pos = reader.GetOrdinal(\"{1}\");", Char.ToLowerInvariant(column.ColumnName[0]) + column.ColumnName.Substring(1), column.ColumnName));
+                        }
                     }
 
                 }

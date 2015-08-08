@@ -18,5 +18,6 @@ namespace Schema.Views.DesignTime
 
 
         public System.TimeSpan QueryTime { get; set; }
+        public ICommand ExportToExcelCommand { get; set; }
     }
 }

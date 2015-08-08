@@ -20,7 +20,7 @@ namespace Schema.Common.DataTypes
 
         public bool IsInPrimaryKey { get; set; }
 
-        public bool IsForeighnKey { get; set; }
+        public bool IsForeignKey { get; set; }
 
         public bool IsReferenced { get; set; }
 

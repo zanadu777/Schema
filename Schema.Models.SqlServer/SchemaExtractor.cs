@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Schema.Common.DataTypes;
@@ -206,9 +207,57 @@ and o.type= 'V'";
 
         public Dictionary<string, List<DbParameter>> GetStoredProcedureParameters(DatabaseConnectionInfo connectionInfo)
         {
-            throw new NotImplementedException();
+            var parameters = new Dictionary<string, List<DbParameter>>();
+            var sql = @"select Specific_Schema + '.' +  Specific_Name as Full_Procedure_Name,
+PARAMETER_NAME, ORDINAL_POSITION,   DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, PARAMETER_MODE
+ from information_schema.parameters";
+
+            using (var conn = new SqlConnection(connectionInfo.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = sql;
+                    var reader = cmd.ExecuteReader();
+                    var fullProcedureNamePos = reader.GetOrdinal("Full_Procedure_Name");
+                    var ordinalPos = reader.GetOrdinal("ORDINAL_POSITION");
+                    var parameterName  = reader.GetOrdinal("PARAMETER_NAME");
+                    var datatypePos = reader.GetOrdinal("DATA_TYPE");
+                    var max_lengthPos = reader.GetOrdinal("CHARACTER_MAXIMUM_LENGTH");
+                    while (reader.Read())
+                    {
+                        var fullName = reader.GetString(fullProcedureNamePos);
+
+                        if (!parameters.ContainsKey(fullName))
+                            parameters.Add(fullName, new List<DbParameter>());
+
+                        parameters[fullName].Add(new DbParameter
+                        {
+                            Name = reader.GetString(parameterName),
+                            Ordinal = reader.GetInt32( ordinalPos),
+                            DataType = reader.GetString(datatypePos),
+                            MaxLength = GetMaxLength(reader.GetValue(max_lengthPos))
+                        });
+                    }
+                }
+            }
+            return parameters;
         }
 
+
+        private int GetMaxLength(object obj)
+        {
+            if (obj is DBNull)
+            return 0;
+
+            if (obj is int)
+                return (int) obj;
+            else
+            {
+                return -2;
+            }
+        }
 
         public string DisplayType(DbColumn column)
         {

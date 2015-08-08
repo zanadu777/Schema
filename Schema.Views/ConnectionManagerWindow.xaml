@@ -73,13 +73,16 @@
                                 <ColumnDefinition Width ="40"/>
                                 <ColumnDefinition Width ="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column ="0" Source="Resources/MS-SQL.png"/>
+                            <Image Name="DbIcon"  Grid.Column ="0" Source="Resources/MS-SQL.png"/>
                             <Image Name="StatusIcon" Grid.Column ="0" HorizontalAlignment ="Left" VerticalAlignment="Top" Source="Resources/unknown.png" Width="12" />
                             <Image Name="DirtyIcon"  HorizontalAlignment="Left" VerticalAlignment ="Bottom" Grid.Column="0"   Width="12"/>
                             <TextBlock  Text="{Binding FriendlyName}" Grid.Column="2" FontWeight ="Bold"
                                          Margin="4,0,0,0"/>
                         </Grid>
                         <DataTemplate.Triggers >
+                            <DataTrigger Binding ="{Binding DatabaseType}" Value="MySQL">
+                                <Setter TargetName="DbIcon" Property="Source" Value="Resources/MySQL.png"/>
+                            </DataTrigger>
                             <DataTrigger Binding="{Binding Path=Status}" Value="Connected">
                                 <Setter TargetName="StatusIcon" Property="Source" Value="Resources/ok.png"/>
                             </DataTrigger>

@@ -49,7 +49,7 @@ namespace Schema.Models.IsolatedStorage
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(json);
+                    Debug.WriteLine(ex.Message);
                 }
 
             }

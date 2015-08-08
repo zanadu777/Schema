@@ -140,6 +140,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\dbExecute.ico" />
+    <Resource Include="Resources\Microsoft-Excel.png" />
+    <Resource Include="Resources\MySQL.png" />
+    <Resource Include="Resources\FK.png" />
     <Resource Include="Resources\dbExecute.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
