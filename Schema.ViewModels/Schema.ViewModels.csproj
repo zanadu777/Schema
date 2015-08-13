@@ -76,6 +76,7 @@
     <Compile Include="ConnectionManagerVM.cs" />
     <Compile Include="ExtensionMethods\EventHandlerExtensions.cs" />
     <Compile Include="ExtensionMethods\IListExtensions.cs" />
+    <Compile Include="GenerateTableSqlVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryVM.cs" />
     <Compile Include="SchemaBrowserVM.cs" />

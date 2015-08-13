@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Schema.Common.CustomEventArgs;
 using Schema.Common.DataTypes;
 using Schema.Common.Interfaces;
 
@@ -34,5 +36,8 @@ namespace Schema.Views.DesignTime
         public ICommand ShowConnectionManagerWindowCommand { get; set; }
 
         public event System.EventHandler<Common.CustomEventArgs.DatabaseConnectionInfoEventArgs> OnShowConnectionManagerWindow;
+        public ICommand GenerateDataAccessCodeCommand { get; set; }
+        public ICommand ShowGenerateTableSqlWindowCommand { get; set; }
+        public event EventHandler<DbTableEventArgs> OnShowGenerateTableSqlWindow;
     }
 }

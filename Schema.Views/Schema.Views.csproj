@@ -55,12 +55,19 @@
     <Compile Include="ConnectionManagerWindow.xaml.cs">
       <DependentUpon>ConnectionManagerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ContextMenu\CMenu.cs" />
+    <Compile Include="ContextMenu\ESelectionMismatchAction.cs" />
+    <Compile Include="ContextMenu\ESelectionMode.cs" />
     <Compile Include="Converters\EConnectivityStatusToIconConverter.cs" />
     <Compile Include="Converters\TextSelectionConverter.cs" />
     <Compile Include="DesignTime\DesignTimeConnectionManagerVM.cs" />
     <Compile Include="DesignTime\DesignTimeData.cs" />
+    <Compile Include="DesignTime\DesignTimeGenerateTableSqlVm.cs" />
     <Compile Include="DesignTime\DesignTimeQueryVM.cs" />
     <Compile Include="DesignTime\DesignTimeSchemaBrowserVM.cs" />
+    <Compile Include="GenerateTableSqlWindow.xaml.cs">
+      <DependentUpon>GenerateTableSqlWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryWindow.xaml.cs">
       <DependentUpon>QueryWindow.xaml</DependentUpon>
@@ -72,6 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="ConnectionManagerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GenerateTableSqlWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

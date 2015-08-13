@@ -28,5 +28,13 @@ namespace Schema.Common.Interfaces
         ICommand ShowConnectionManagerWindowCommand { get; }
 
         event EventHandler<DatabaseConnectionInfoEventArgs> OnShowConnectionManagerWindow;
+
+
+
+        ICommand GenerateDataAccessCodeCommand { get; set; }
+
+        ICommand ShowGenerateTableSqlWindowCommand { get; set; }
+
+        event EventHandler<DbTableEventArgs> OnShowGenerateTableSqlWindow;
     }
 }

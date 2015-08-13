@@ -6,9 +6,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:designTime="clr-namespace:Schema.Views.DesignTime"
         xmlns:selectors="clr-namespace:Schema.Views.Selectors"
+        xmlns:cm="clr-namespace:Schema.Views.ContextMenu"
+        xmlns:dataTypes="clr-namespace:Schema.Common.DataTypes;assembly=Schema.Common"
         mc:Ignorable="d"
         d:DataContext="{x:Static designTime:DesignTimeData.SchemaBrowserVM}"
-        Title="{Binding CurrentDatabase.FriendlyName}" Height="369" Width="626" Icon="Resources/db.ico"
+        Title="{Binding CurrentDatabase.FriendlyName}" Height="369" Width="600" Icon="Resources/db.ico"
        >
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -61,7 +63,7 @@
                 </Grid.RowDefinitions>
                 <Rectangle Fill="#FF303088" />
                 <TextBlock Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0" Foreground="White"/>
-                
+
                 <DataGrid  Grid.Row="1" ItemsSource ="{Binding Columns}" CanUserAddRows="False" 
                                        HorizontalGridLinesBrush="#B3B3B3"
           VerticalGridLinesBrush="#B3B3B3" AutoGenerateColumns="False"
@@ -148,7 +150,7 @@
                 <TextBlock Text ="{Binding Name}"/>
                 <TextBox  Grid.Row="1" Text ="{Binding Definition}"/>
             </Grid>
-           
+
         </DataTemplate>
 
 
@@ -164,9 +166,9 @@
                                        HorizontalGridLinesBrush="#B3B3B3"
           VerticalGridLinesBrush="#B3B3B3" AutoGenerateColumns="True"
                                        >
-                    
-                    </DataGrid>
-                    <TextBlock Grid.Row="0" Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0" Foreground="White" />
+
+                </DataGrid>
+                <TextBlock Grid.Row="0" Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0" Foreground="White" />
 
                 <TextBox  Grid.Row="2" Text ="{Binding Definition}" />
             </Grid>
@@ -186,12 +188,16 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Windows" >
-                <MenuItem.Icon><Image Source="Resources/db.ico"/></MenuItem.Icon>
+                <MenuItem.Icon>
+                    <Image Source="Resources/db.ico"/>
+                </MenuItem.Icon>
                 <MenuItem Header ="Open Query Window" 
                           
                           Command="{Binding ShowQueryWindowCommand}" 
                           CommandParameter="{Binding CurrentDatabase}">
-                    <MenuItem.Icon><Image Source ="Resources/dbExecute.ico"/></MenuItem.Icon>
+                    <MenuItem.Icon>
+                        <Image Source ="Resources/dbExecute.ico"/>
+                    </MenuItem.Icon>
                 </MenuItem>
 
                 <MenuItem Header ="Open Connection Manager Window" 
@@ -204,18 +210,31 @@
                 <ColumnDefinition Width="160"/>
                 <ColumnDefinition Width="6"/>
                 <ColumnDefinition Width="240*"/>
+                
             </Grid.ColumnDefinitions>
             <ListBox x:Name="lstObjects" ItemsSource="{Binding SchemaObjects}" Grid.Column="0" 
                     ItemTemplateSelector="{StaticResource SchemaObjectTemplateSelector}" 
+                     ContextMenuOpening="lstObjects_ContextMenuOpening" 
                      >
+                <ListBox.ContextMenu>
+                    <cm:CMenu >
+                        <MenuItem Header="Generate Execution Code" Command="{Binding GenerateDataAccessCodeCommand}"
+                                  cm:CMenu.SelectionMode="Single"  cm:CMenu.SelectionMismatch="Disable"
+                                  cm:CMenu.VisibleFor="dataTypes:DbStoredProc"/>
 
+                        <MenuItem Header="Generate Table Sql..." Command="{Binding ShowGenerateTableSqlWindowCommand}"
+                                  cm:CMenu.SelectionMode="Single"  cm:CMenu.SelectionMismatch="Disable"
+                                  cm:CMenu.VisibleFor="dataTypes:DbTable"/>
+                    </cm:CMenu>
+                </ListBox.ContextMenu>
             </ListBox>
             <GridSplitter Grid.Column ="1" HorizontalAlignment="Stretch" />
             <ContentControl Grid.Column="2" 
                             Content="{Binding ElementName=lstObjects,Path=SelectedValue }" 
                             ContentTemplateSelector="{StaticResource SchemaObjectDetailsSelector}">
-             
+
             </ContentControl>
+            
         </Grid>
     </DockPanel>
 </Window>

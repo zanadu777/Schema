@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Schema.Common.DataTypes
 {
+    [Serializable]
     public class DbColumn
     {
         public string Name { get; set; }
@@ -33,5 +34,7 @@ namespace Schema.Common.DataTypes
         }
 
         public Func<DbColumn, string> DisplayDataTypeCalculator { get; set; }
+
+       
     }
 }

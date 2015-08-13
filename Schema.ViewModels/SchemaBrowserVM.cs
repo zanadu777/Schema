@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,20 @@ namespace Schema.ViewModels
 
             ShowQueryWindowCommand = new DelegateCommand<DatabaseConnectionInfo>(x => OnShowQueryWindow.Raise(this, new DatabaseConnectionInfoEventArgs(x)));
             ShowConnectionManagerWindowCommand = new DelegateCommand<DatabaseConnectionInfo>(x => OnShowConnectionManagerWindow.Raise(this, new DatabaseConnectionInfoEventArgs(x)));
+            ShowGenerateTableSqlWindowCommand = new DelegateCommand<DbTable>(x => OnShowGenerateTableSqlWindow.Raise(this, new DbTableEventArgs(x)));
+               
+            GenerateDataAccessCodeCommand = new DelegateCommand<object>(GenerateDataAccessCode);
         }
+
+        private void GenerateDataAccessCode(object obj)
+        {
+            if (obj != null)
+            {
+                var sp = obj as DbStoredProc;
+                Debug.WriteLine(sp.Name);
+            }
+        }
+    
 
         private void LoadSchema()
         {
@@ -65,5 +79,8 @@ namespace Schema.ViewModels
         public ICommand ShowConnectionManagerWindowCommand { get; set; }
 
         public event EventHandler<DatabaseConnectionInfoEventArgs> OnShowConnectionManagerWindow;
+        public ICommand GenerateDataAccessCodeCommand { get; set; }
+        public ICommand ShowGenerateTableSqlWindowCommand { get; set; }
+        public event EventHandler<DbTableEventArgs> OnShowGenerateTableSqlWindow;
     }
 }

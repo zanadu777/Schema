@@ -59,5 +59,19 @@ namespace Schema.Views.DesignTime
                 return vm;
             }
         }
+
+
+        public static IGenerateTableSqlVm GenerateTableSqlVm
+        {
+            get
+            {
+                var vm = new DesignTimeGenerateTableSqlVm();
+                var table = new DbTable();
+                table.Name = "Objects";
+                table.Columns.Add( new DbColumn {Name="Id", DataType="int", IsIdentity = true,IsInPrimaryKey = true});
+                vm.Table = table;
+                return vm;
+            }
+        }
     }
 }

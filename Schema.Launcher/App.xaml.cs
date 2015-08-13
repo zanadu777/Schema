@@ -74,7 +74,16 @@ namespace Schema.Launcher
             ISchemaBrowserVM viewModel = new SchemaBrowserVM(model, e.ConnectionInfo);
             viewModel.OnShowQueryWindow += OnShowQueryWindow;
             viewModel.OnShowConnectionManagerWindow += OnShowConnectionManagerWindow;
+            viewModel.OnShowGenerateTableSqlWindow += ShowGenerateTableSqlWindow;
             var window = new SchemaBrowserWindow(viewModel);
+            window.Show();
+        }
+
+        private void ShowGenerateTableSqlWindow(object sender, DbTableEventArgs e)
+        {
+            var viewModel = new GenerateTableSqlVm();
+            viewModel.Table = e.Table;
+            var window = new GenerateTableSqlWindow(viewModel);
             window.Show();
         }
 

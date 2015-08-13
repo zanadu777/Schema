@@ -1,0 +1,32 @@
+﻿<Window x:Class="Schema.Views.GenerateTableSqlWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:designTime="clr-namespace:Schema.Views.DesignTime"
+        mc:Ignorable="d"
+        d:DataContext="{x:Static designTime:DesignTimeData.GenerateTableSqlVm}"
+        Title="GenerateTableSqlWindow" Height="307.353" Width="488.971">
+    <DockPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="136*"/>
+            </Grid.RowDefinitions>
+
+            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
+            <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="200"
+                      ItemsSource="{Binding Columns}" CanUserAddRows="False"  AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header ="Column Name" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header ="DataType" Binding="{Binding DisplayDataType}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button x:Name="btGenerate" Content="Generate" HorizontalAlignment="Right" Margin="390,10,8,0" VerticalAlignment="Top" Width="75"/>
+
+        </Grid>
+    </DockPanel>
+
+</Window>

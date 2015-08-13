@@ -11,6 +11,7 @@ using Schema.Common.Interfaces;
 
 namespace Schema.Models.SqlServer
 {
+    [Serializable]
     public class SchemaExtractor : ISchemaExtractor
     {
         public Dictionary<string, DbTable> GetTables(DatabaseConnectionInfo connectionInfo)
