@@ -105,7 +105,7 @@
     <Resource Include="Resources\DBTable.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\PK.png" />
+    <Resource Include="Resources\KeyStatus\PrimaryKey.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\StoredProcedure.bmp" />
@@ -151,9 +151,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\dbExecute.ico" />
+    <Resource Include="Resources\KeyStatus\ReferencedPrimaryKey.png" />
+    <Resource Include="Resources\KeyStatus\PrimaryAndForeignKey.png" />
     <Resource Include="Resources\Microsoft-Excel.png" />
     <Resource Include="Resources\MySQL.png" />
-    <Resource Include="Resources\FK.png" />
+    <Resource Include="Resources\KeyStatus\ForeignKey.png" />
     <Resource Include="Resources\dbExecute.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

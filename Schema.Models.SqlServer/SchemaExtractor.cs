@@ -70,6 +70,7 @@ where type in ('U')";
                     var is_identityPos = reader.GetOrdinal("is_identity");
                     var datatypePos = reader.GetOrdinal("datatype");
                     var max_lengthPos = reader.GetOrdinal("max_length");
+                    var ordinalPos = reader.GetOrdinal("ordinal");
                     while (reader.Read())
                     {
                         var fullTableName = reader.GetString(fullTableNamePos);
@@ -84,7 +85,8 @@ where type in ('U')";
                             IsIdentity = reader.GetBoolean(is_identityPos),
                             DataType = reader.GetString(datatypePos),
                             DisplayDataTypeCalculator = DisplayType,
-                            MaxLength = (Int16)reader.GetValue(max_lengthPos)
+                            MaxLength = (Int16)reader.GetValue(max_lengthPos),
+                            Ordinal= reader.GetInt32( ordinalPos)
                         });
                     }
                 }
@@ -151,6 +153,7 @@ and o.type= 'V'";
                     var is_nullablePos = reader.GetOrdinal("is_nullable");
                     var datatypePos = reader.GetOrdinal("datatype");
                     var max_lengthPos = reader.GetOrdinal("max_length");
+                    var ordinalPos = reader.GetOrdinal("ordinal");
                     while (reader.Read())
                     {
                         var fullTableName = reader.GetString(fullTableNamePos);
@@ -164,7 +167,8 @@ and o.type= 'V'";
                             IsNullable = reader.GetBoolean(is_nullablePos),
                             DataType = reader.GetString(datatypePos),
                             DisplayDataTypeCalculator = DisplayType,
-                            MaxLength = (Int16)reader.GetValue(max_lengthPos)
+                            MaxLength = (Int16)reader.GetValue(max_lengthPos),
+                            Ordinal= reader.GetInt32(ordinalPos)
                         });
                     }
                 }

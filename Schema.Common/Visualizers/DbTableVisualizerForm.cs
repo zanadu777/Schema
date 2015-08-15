@@ -26,6 +26,7 @@ namespace Schema.Common.Visualizers
             set
             {
                 table = value;
+                this.Text = "Visualization for Table " + Table.Name;
                 lblName.Text = table.Name;
                 this.dataGridView.DataSource = table.ColumnDataTable();
             }

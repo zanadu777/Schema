@@ -1,14 +1,14 @@
-﻿using Microsoft.VisualStudio.DebuggerVisualizers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using Microsoft.VisualStudio.DebuggerVisualizers;
 using Schema.Common.DataTypes;
 
 namespace Schema.Common.Visualizers
 {
-    public class DbTableVisualizer : DialogDebuggerVisualizer
+   public class DbForeignKeyVisualizer : DialogDebuggerVisualizer
     {
         protected override void Show(IDialogVisualizerService windowService, IVisualizerObjectProvider objectProvider)
         {
@@ -17,12 +17,12 @@ namespace Schema.Common.Visualizers
             if (objectProvider == null)
                 throw new ArgumentNullException("objectProvider");
 
-         
-            var data = (DbTable)objectProvider.GetObject();
-            using (var displayForm = new DbTableVisualizerForm())
+
+            var data = (DbForeignKey)objectProvider.GetObject();
+            using (var displayForm = new DbForiegnKeyVisualizerForm())
             {
-                displayForm.Table = data;
-                displayForm.Text = data.ToString();
+                displayForm.ForeignKey  = data;
+                
                 windowService.ShowDialog(displayForm);
             }
         }

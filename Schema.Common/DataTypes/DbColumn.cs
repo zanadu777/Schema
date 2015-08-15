@@ -23,7 +23,7 @@ namespace Schema.Common.DataTypes
 
         public bool IsForeignKey { get; set; }
 
-        public bool IsReferenced { get; set; }
+        public bool IsReferencedPrimaryKey { get; set; }
 
         public string DisplayDataType
         {
@@ -35,6 +35,27 @@ namespace Schema.Common.DataTypes
 
         public Func<DbColumn, string> DisplayDataTypeCalculator { get; set; }
 
-       
+        public EKeyStatus  KeyStatus
+        {
+            get
+            {
+                if (IsInPrimaryKey && IsForeignKey && IsReferencedPrimaryKey)
+                    return EKeyStatus.ReferencedPrimaryAndForeignKey;
+
+                if (IsInPrimaryKey && IsForeignKey)
+                    return EKeyStatus.PrimaryAndForeignKey;
+
+                if (IsInPrimaryKey && IsReferencedPrimaryKey)
+                    return EKeyStatus.ReferencedPrimaryKey;
+
+                if (IsInPrimaryKey)
+                    return EKeyStatus.PrimaryKey;
+
+                if (IsForeignKey)
+                    return EKeyStatus.ForeignKey;
+
+                return EKeyStatus.None;
+            }
+        }
     }
 }

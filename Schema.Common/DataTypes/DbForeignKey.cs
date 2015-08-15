@@ -1,22 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Sockets;
 
 namespace Schema.Common.DataTypes
 {
-  public  class DbForeignKey
+    [DebuggerVisualizer(typeof(DbForeignKey))]
+    [Serializable]
+    public  class DbForeignKey
     {
       public DbForeignKey()
       {
-          Columns=new Dictionary<string, string>();
+          Columns = new List<DbForeignKeyColumn>();
       }
         public string ConstraintFullName { get; set; }
 
-        public string ParentTableFullName { get; set; }
-        public string ReferencedTableFullName { get; set; }
+        public string ForeignKeyTable { get; set; }
+        public string PrimaryKeyTable { get; set; }
 
-        public Dictionary<string, string> Columns { get; set; } 
+        public List<DbForeignKeyColumn > Columns { get; set; }
+
+        public List<string> PrimaryKeyColumns
+        {
+            get
+            {
+                var cols = from c in Columns
+                    select c.PrimaryKeyColumn;
+                return cols.ToList();
+            }
+        }
+
+        public List<string> ForeignKeyColumns {
+            get
+            {
+                var cols = from c in Columns
+                           select c.ForeignKeyColumn;
+                return cols.ToList();
+            }
+
+        }
     }
 }

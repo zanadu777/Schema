@@ -32,7 +32,7 @@ namespace Schema.Common.DataTypes
             dt.Columns.Add(new DataColumn("IsNullable", typeof(bool)));
             dt.Columns.Add(new DataColumn("IsInPrimaryKey", typeof(bool)));
             dt.Columns.Add(new DataColumn("IsForeignKey", typeof(bool)));
-            dt.Columns.Add(new DataColumn("IsReferenced", typeof(bool)));
+            dt.Columns.Add(new DataColumn("IsReferencedPrimaryKey", typeof(bool)));
             dt.Columns.Add(new DataColumn("DisplayDataType", typeof(string)));
 
             foreach (var column in Columns)
@@ -47,7 +47,7 @@ namespace Schema.Common.DataTypes
                 row["IsNullable"] = column.IsNullable;
                 row["IsInPrimaryKey"] = column.IsInPrimaryKey;
                 row["IsForeignKey"] = column.IsForeignKey;
-                row["IsReferenced"] = column.IsReferenced;
+                row["IsReferencedPrimaryKey"] = column.IsReferencedPrimaryKey;
                 row["DisplayDataType"] = column.DisplayDataTypeCalculator(column);
                 dt.Rows.Add(row);
             }

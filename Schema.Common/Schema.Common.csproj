@@ -48,11 +48,13 @@
     <Compile Include="DataTypes\DatabaseConnectionInfo.cs" />
     <Compile Include="DataTypes\DbColumn.cs" />
     <Compile Include="DataTypes\DbForeignKey.cs" />
+    <Compile Include="DataTypes\DbForeignKeyColumn.cs" />
     <Compile Include="DataTypes\DbParameter.cs" />
     <Compile Include="DataTypes\DbStoredProc.cs" />
     <Compile Include="DataTypes\DbTable.cs" />
     <Compile Include="DataTypes\DbView.cs" />
     <Compile Include="DataTypes\EConnectivityStatus.cs" />
+    <Compile Include="DataTypes\EKeyStatus.cs" />
     <Compile Include="DataTypes\ESchemaObjectType.cs" />
     <Compile Include="DataTypes\QueryResult.cs" />
     <Compile Include="DataTypes\SchemaObject.cs" />
@@ -74,6 +76,13 @@
     <Compile Include="Interfaces\ISchemaBrowserVM.cs" />
     <Compile Include="Interfaces\ISchemaExtractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Visualizers\DbForeignKeyVisualizer.cs" />
+    <Compile Include="Visualizers\DbForiegnKeyVisualizerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visualizers\DbForiegnKeyVisualizerForm.Designer.cs">
+      <DependentUpon>DbForiegnKeyVisualizerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Visualizers\DbTableVisualizer.cs" />
     <Compile Include="Visualizers\DbTableVisualizerForm.cs">
       <SubType>Form</SubType>
@@ -86,6 +95,9 @@
     <Folder Include="ExtensionMethods\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Visualizers\DbForiegnKeyVisualizerForm.resx">
+      <DependentUpon>DbForiegnKeyVisualizerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Visualizers\DbTableVisualizerForm.resx">
       <DependentUpon>DbTableVisualizerForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -55,7 +55,7 @@
         x:Key="SchemaObjectTemplateSelector" />
 
 
-        <DataTemplate x:Key ="TableDetails">
+        <DataTemplate x:Key ="TableDetails" >
             <Grid >
                 <Grid.RowDefinitions >
                     <RowDefinition Height="23"/>
@@ -76,16 +76,25 @@
                                     <Image x:Name="keyImage"/>
                                     <DataTemplate.Triggers>
 
-                                        <DataTrigger Binding="{Binding Path=IsInPrimaryKey}" Value="False">
+                                        <DataTrigger Binding="{Binding Path=KeyStatus}" Value="None">
                                             <Setter TargetName="keyImage" Property="Source" Value="{x:Null}" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Path=IsInPrimaryKey}" Value="True">
-                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/PK.png" />
+                                        <DataTrigger Binding="{Binding Path=KeyStatus}" Value="PrimaryKey">
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/KeyStatus/PrimaryKey.png" />
                                         </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding Path=IsForeignKey}" Value="True">
-                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/FK.png" />
+                                        <DataTrigger Binding="{Binding Path=KeyStatus}" Value="ForeignKey">
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/KeyStatus/ForeignKey.png" />
                                         </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=KeyStatus}" Value="PrimaryAndForeignKey">
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/KeyStatus/PrimaryAndForeignKey.png" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=KeyStatus}" Value="ReferencedPrimaryKey">
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/KeyStatus/ReferencedPrimaryKey.png" />
+                                        </DataTrigger>
+
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -124,7 +133,7 @@
                                             <Setter TargetName="keyImage" Property="Source" Value="{x:Null}" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Path=IsInPrimaryKey}" Value="True">
-                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/PK.png" />
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/KeyStatus/PrimaryKey.png" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>

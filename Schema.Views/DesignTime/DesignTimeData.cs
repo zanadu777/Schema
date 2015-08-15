@@ -73,5 +73,17 @@ namespace Schema.Views.DesignTime
                 return vm;
             }
         }
+
+
+        public static DbColumn DBColumn
+        {
+            get { return new DbColumn(); }
+        }
+
+        public static DbTable DbTable
+        {
+            get { return new DbTable(); }
+        }
     }
-}
+    }
+ 
