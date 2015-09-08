@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
+using Newtonsoft.Json;
 using Schema.Common.CustomEventArgs;
 using Schema.Common.DataTypes;
+using Schema.Common.DataTypes.CodeGeneration;
 using Schema.Common.Interfaces;
 using Schema.ViewModels.ExtensionMethods;
 
@@ -20,20 +17,32 @@ namespace Schema.ViewModels
     public class SchemaBrowserVM : BindableBase, ISchemaBrowserVM
     {
         private ISchemaBrowserModel model;
+        private ICodeGenerator codeGenerator;
         private DatabaseConnectionInfo currentDatabase;
+        private ICommand showQueryWindowCommand;
+        private ICommand loadSchemaCommand;
+        private ICommand generateDataAccessCodeCommand;
+        private ICommand showConnectionManagerWindowCommand;
+        private ICommand showGenerateTableSqlWindowCommand;
+        private string generatedText;
+        private ICommand getJsonCommand;
+        private ICommand showCodeGenerationWindowCommand;
 
-        public SchemaBrowserVM(ISchemaBrowserModel iSchemaBrowserModel, DatabaseConnectionInfo databaseConnectionInfo)
+        public SchemaBrowserVM(ISchemaBrowserModel iSchemaBrowserModel, ICodeGenerator iCodeGenerator, DatabaseConnectionInfo databaseConnectionInfo)
         {
             model = iSchemaBrowserModel;
+            codeGenerator = iCodeGenerator;
             currentDatabase = databaseConnectionInfo;
-            SchemaObjects = new ObservableCollection<SchemaObject>();
-            LoadSchemaCommand = new DelegateCommand(LoadSchema);
+            GeneratCodeCommand = new DelegateCommand<object>(GeneratCode);
+        }
 
-            ShowQueryWindowCommand = new DelegateCommand<DatabaseConnectionInfo>(x => OnShowQueryWindow.Raise(this, new DatabaseConnectionInfoEventArgs(x)));
-            ShowConnectionManagerWindowCommand = new DelegateCommand<DatabaseConnectionInfo>(x => OnShowConnectionManagerWindow.Raise(this, new DatabaseConnectionInfoEventArgs(x)));
-            ShowGenerateTableSqlWindowCommand = new DelegateCommand<DbTable>(x => OnShowGenerateTableSqlWindow.Raise(this, new DbTableEventArgs(x)));
-               
-            GenerateDataAccessCodeCommand = new DelegateCommand<object>(GenerateDataAccessCode);
+        private void GeneratCode(object obj)
+        {
+            var kv = (KeyValuePair<string, object>)obj;
+            var key = kv.Key;
+            var value = (SchemaObject)kv.Value;
+            var result = codeGenerator.Generate(new CodeGenerationKey { Name = key }, value);
+            GeneratedText = result;
         }
 
         private void GenerateDataAccessCode(object obj)
@@ -44,7 +53,6 @@ namespace Schema.ViewModels
                 Debug.WriteLine(sp.Name);
             }
         }
-    
 
         private void LoadSchema()
         {
@@ -52,7 +60,7 @@ namespace Schema.ViewModels
             CurrentDatabase = currentDatabase;
         }
 
-        public ObservableCollection<SchemaObject> SchemaObjects { get; set; }
+        public ObservableCollection<SchemaObject> SchemaObjects { get; set; } = new ObservableCollection<SchemaObject>();
 
         public DatabaseConnectionInfo CurrentDatabase
         {
@@ -64,23 +72,82 @@ namespace Schema.ViewModels
             }
         }
 
-        public ICommand LoadSchemaCommand { get; set; }
-
+        public ICommand LoadSchemaCommand
+        {
+            get { return loadSchemaCommand ?? (loadSchemaCommand = new DelegateCommand(LoadSchema)); }
+            set { loadSchemaCommand = value; }
+        }
 
         public ICommand LoadConnectionInfosCommand { get; set; }
 
-
-
-        public ICommand ShowQueryWindowCommand { get; set; }
+        public ICommand ShowQueryWindowCommand
+        {
+            get { return showQueryWindowCommand ?? (showQueryWindowCommand = new DelegateCommand<DatabaseConnectionInfo>(x => OnShowQueryWindow.Raise(this, new DatabaseConnectionInfoEventArgs(x)))); }
+            set { showQueryWindowCommand = value; }
+        }
 
         public event EventHandler<DatabaseConnectionInfoEventArgs> OnShowQueryWindow;
 
+        public ICommand ShowCodeGenerationWindowCommand
+        {
+            get
+            {
+                return showCodeGenerationWindowCommand ?? (showCodeGenerationWindowCommand = new DelegateCommand<SchemaObject>(x => OnShowCodeGenerationWindow.Raise(this, x)));
+            }
+            set { showCodeGenerationWindowCommand = value; }
+        }
 
-        public ICommand ShowConnectionManagerWindowCommand { get; set; }
+        public event EventHandler<SchemaObjectEventArgs> OnShowCodeGenerationWindow;
+
+        public ICommand ShowConnectionManagerWindowCommand
+        {
+            get
+            {
+                return showConnectionManagerWindowCommand ?? (showConnectionManagerWindowCommand
+                  = new DelegateCommand<DatabaseConnectionInfo>(x => OnShowConnectionManagerWindow.Raise(this, new DatabaseConnectionInfoEventArgs(x))));
+            }
+            set { showConnectionManagerWindowCommand = value; }
+        }
 
         public event EventHandler<DatabaseConnectionInfoEventArgs> OnShowConnectionManagerWindow;
-        public ICommand GenerateDataAccessCodeCommand { get; set; }
-        public ICommand ShowGenerateTableSqlWindowCommand { get; set; }
+
+        public ICommand GenerateDataAccessCodeCommand
+        {
+            get { return generateDataAccessCodeCommand ?? (generateDataAccessCodeCommand = new DelegateCommand<object>(GenerateDataAccessCode)); }
+            set { generateDataAccessCodeCommand = value; }
+        }
+
+        public ICommand ShowGenerateTableSqlWindowCommand
+        {
+            get { return showGenerateTableSqlWindowCommand ?? (showGenerateTableSqlWindowCommand = new DelegateCommand<DbTable>(x => OnShowGenerateTableSqlWindow.Raise(this, new DbTableEventArgs(x)))); }
+            set { showGenerateTableSqlWindowCommand = value; }
+        }
+
         public event EventHandler<DbTableEventArgs> OnShowGenerateTableSqlWindow;
+        public ICommand GeneratCodeCommand { get; set; }
+
+        public string GeneratedText
+        {
+            get { return generatedText; }
+            set
+            {
+                SetProperty(ref generatedText, value);
+                OnPropertyChanged(() => GeneratedText);
+            }
+        }
+
+        public ICommand GetJsonCommand
+        {
+            get { return getJsonCommand ?? (getJsonCommand = new DelegateCommand<SchemaObject>(GetJson)); }
+            set { getJsonCommand = value; }
+        }
+
+        private void GetJson(SchemaObject obj)
+        {
+            var settigns = new JsonSerializerSettings();
+            settigns.Formatting = Formatting.Indented;
+            string json = JsonConvert.SerializeObject(obj, settigns);
+            GeneratedText = json;
+        }
     }
 }

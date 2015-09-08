@@ -1,0 +1,73 @@
+﻿{
+  "Columns": [
+    {
+      "Name": "RoundId",
+      "DataType": "int",
+      "Ordinal": 1,
+      "MaxLength": 4,
+      "IsIdentity": true,
+      "IsNullable": false,
+      "IsInPrimaryKey": true,
+      "IsForeignKey": false,
+      "IsReferencedPrimaryKey": true,
+      "DisplayDataType": "int(identity)",
+      "KeyStatus": 4
+    },
+    {
+      "Name": "QuizId",
+      "DataType": "int",
+      "Ordinal": 2,
+      "MaxLength": 4,
+      "IsIdentity": false,
+      "IsNullable": false,
+      "IsInPrimaryKey": false,
+      "IsForeignKey": true,
+      "IsReferencedPrimaryKey": false,
+      "DisplayDataType": "int",
+      "KeyStatus": 2
+    },
+    {
+      "Name": "Number",
+      "DataType": "int",
+      "Ordinal": 3,
+      "MaxLength": 4,
+      "IsIdentity": false,
+      "IsNullable": false,
+      "IsInPrimaryKey": false,
+      "IsForeignKey": false,
+      "IsReferencedPrimaryKey": false,
+      "DisplayDataType": "int",
+      "KeyStatus": 0
+    },
+    {
+      "Name": "StartTime",
+      "DataType": "datetime",
+      "Ordinal": 4,
+      "MaxLength": 8,
+      "IsIdentity": false,
+      "IsNullable": true,
+      "IsInPrimaryKey": false,
+      "IsForeignKey": false,
+      "IsReferencedPrimaryKey": false,
+      "DisplayDataType": "datetime",
+      "KeyStatus": 0
+    },
+    {
+      "Name": "EndTime",
+      "DataType": "datetime",
+      "Ordinal": 5,
+      "MaxLength": 8,
+      "IsIdentity": false,
+      "IsNullable": true,
+      "IsInPrimaryKey": false,
+      "IsForeignKey": false,
+      "IsReferencedPrimaryKey": false,
+      "DisplayDataType": "datetime",
+      "KeyStatus": 0
+    }
+  ],
+  "Name": "Round",
+  "SchemaName": "dbo",
+  "Definition": null,
+  "SchemaObjectType": 0
+}

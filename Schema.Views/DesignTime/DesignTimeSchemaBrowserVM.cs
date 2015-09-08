@@ -31,7 +31,8 @@ namespace Schema.Views.DesignTime
 
 
         public event System.EventHandler<Common.CustomEventArgs.DatabaseConnectionInfoEventArgs> OnShowQueryWindow;
-
+        public ICommand ShowCodeGenerationWindowCommand { get; }
+        public event EventHandler<SchemaObjectEventArgs> OnShowCodeGenerationWindow;
 
         public ICommand ShowConnectionManagerWindowCommand { get; set; }
 
@@ -39,5 +40,8 @@ namespace Schema.Views.DesignTime
         public ICommand GenerateDataAccessCodeCommand { get; set; }
         public ICommand ShowGenerateTableSqlWindowCommand { get; set; }
         public event EventHandler<DbTableEventArgs> OnShowGenerateTableSqlWindow;
+        public ICommand GeneratCodeCommand { get; set; }
+        public string GeneratedText { get; set; }
+        public ICommand GetJsonCommand { get; set; }
     }
 }

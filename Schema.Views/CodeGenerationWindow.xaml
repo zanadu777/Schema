@@ -1,0 +1,191 @@
+﻿<Window x:Class="Schema.Views.CodeGenerationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:designTime="clr-namespace:Schema.Views.DesignTime"
+        xmlns:selectors="clr-namespace:Schema.Views.Selectors"
+        mc:Ignorable="d"
+        d:DataContext="{x:Static designTime:DesignTimeData.CodeGenerationVm}"
+        Title="CodeGenerationWindow" Height="300" Width="600">
+    <Window.Resources>
+
+        <DataTemplate x:Key ="TableDetails" >
+            <Grid >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="23"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Rectangle Fill="#FF303088" />
+                <TextBlock Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0" Foreground="White"/>
+
+                <DataGrid  Grid.Row="1" ItemsSource ="{Binding Columns}" CanUserAddRows="False" 
+                                       HorizontalGridLinesBrush="#B3B3B3"
+          VerticalGridLinesBrush="#B3B3B3" AutoGenerateColumns="False"
+                                       >
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn x:Name="IconHeader"  Header="" CanUserResize="False">
+
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image x:Name="keyImage"/>
+                                    <DataTemplate.Triggers>
+
+                                        <DataTrigger Binding="{Binding Path=KeyStatus}" Value="None">
+                                            <Setter TargetName="keyImage" Property="Source" Value="{x:Null}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=KeyStatus}" Value="PrimaryKey">
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/KeyStatus/PrimaryKey.png" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=KeyStatus}" Value="ForeignKey">
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/KeyStatus/ForeignKey.png" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=KeyStatus}" Value="PrimaryAndForeignKey">
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/KeyStatus/PrimaryAndForeignKey.png" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Path=KeyStatus}" Value="ReferencedPrimaryKey">
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/KeyStatus/ReferencedPrimaryKey.png" />
+                                        </DataTrigger>
+
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Binding="{Binding Name}"   Header="Column Name"/>
+                        <DataGridTextColumn Binding="{Binding DisplayDataType}"   Header="Data Type"/>
+                        <DataGridCheckBoxColumn Binding="{Binding IsNullable}"   Header="Allow Nulls"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key ="ViewDetails">
+            <Grid >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="23"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Rectangle Fill="#FF4E2572" />
+                <TextBlock Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0" Foreground="White"/>
+                <DataGrid  Grid.Row="1" ItemsSource ="{Binding Columns}" CanUserAddRows="False" 
+                                       HorizontalGridLinesBrush="#B3B3B3"
+          VerticalGridLinesBrush="#B3B3B3" AutoGenerateColumns="False"
+                                       >
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn x:Name="IconHeader"  Header="" CanUserResize="False">
+
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image x:Name="keyImage"/>
+                                    <DataTemplate.Triggers>
+
+                                        <DataTrigger Binding="{Binding Path=IsInPrimaryKey}" Value="False">
+                                            <Setter TargetName="keyImage" Property="Source" Value="{x:Null}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=IsInPrimaryKey}" Value="True">
+                                            <Setter TargetName="keyImage" Property="Source" Value="Resources/KeyStatus/PrimaryKey.png" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Binding="{Binding Name}"   Header="Column Name"/>
+                        <DataGridTextColumn Binding="{Binding DisplayDataType}"   Header="Data Type"/>
+                        <DataGridCheckBoxColumn Binding="{Binding IsNullable}"   Header="Allow Nulls"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+               
+            </Grid>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key ="ObjectDetails">
+            <Grid >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="23"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text ="{Binding Name}"/>
+                <TextBox  Grid.Row="1" Text ="{Binding Definition}"/>
+            </Grid>
+
+        </DataTemplate>
+
+
+        <DataTemplate x:Key ="SprocDetails" >
+            <Grid >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="23"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Rectangle Fill="#FF375D4C" />
+                <DataGrid  Grid.Row="1" ItemsSource ="{Binding Parameters}" CanUserAddRows="False" 
+                                       HorizontalGridLinesBrush="#B3B3B3"
+          VerticalGridLinesBrush="#B3B3B3" AutoGenerateColumns="True"
+                                       >
+
+                </DataGrid>
+                <TextBlock Grid.Row="0" Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0" Foreground="White" />
+
+              
+            </Grid>
+        </DataTemplate>
+
+
+        <selectors:SchemaObjectTemplateSelector 
+        TableTemplate="{StaticResource TableDetails}"
+        ViewTemplate="{StaticResource ViewDetails}"
+        ObjectTemplate="{StaticResource ObjectDetails}"
+        StoredProcTemplate="{StaticResource SprocDetails}"
+        x:Key="SchemaObjectDetailsSelector" />
+
+
+    </Window.Resources>
+    <DockPanel >
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"  />
+                <ColumnDefinition Width="213*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <ContentControl  Grid.Row="0" Grid.Column="0"   Content="{Binding SchemaObject}"
+                          ContentTemplateSelector="{StaticResource SchemaObjectDetailsSelector}"/>
+                <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Templates}"></ListBox>
+            </Grid>
+
+            <Grid  Grid.Column="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <Button Content="Generate"   HorizontalAlignment="Left" Margin="3,5,0,0" VerticalAlignment="Top" Width="75"
+                    Command ="{Binding GenerateCodeCommand}"/>
+                <TabControl   Grid.Row="1" >
+                    <TabItem Header="Template">
+                        <TextBox/>
+                    </TabItem>
+                    <TabItem Header="Generated">
+                        <TextBox Text="{Binding GeneratedText}"/>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+
+    </DockPanel >
+</Window>

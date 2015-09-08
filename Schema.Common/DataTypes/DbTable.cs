@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Schema.Common.Visualizers;
 
 namespace Schema.Common.DataTypes
@@ -48,7 +44,7 @@ namespace Schema.Common.DataTypes
                 row["IsInPrimaryKey"] = column.IsInPrimaryKey;
                 row["IsForeignKey"] = column.IsForeignKey;
                 row["IsReferencedPrimaryKey"] = column.IsReferencedPrimaryKey;
-                row["DisplayDataType"] = column.DisplayDataTypeCalculator(column);
+                row["DisplayDataType"] = column.DisplayDataType ;
                 dt.Rows.Add(row);
             }
             return dt;

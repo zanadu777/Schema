@@ -1,0 +1,43 @@
+﻿@model Schema.Common.DataTypes.DbTable
+
+@{
+    var maxDeclarationsForOneRow = 3;
+    
+}
+
+<h2>Insert Non- Query Stored Procedure</h2>
+
+Create Procedure Insert@(Model.Name) <br/>
+ 
+ (@foreach (var column in Model.Columns)
+ {
+     if (column.IsIdentity == false)
+     {
+         var comma = (column.Ordinal == Model.Columns.Count)? ")" : ",";
+         var declaration =  "@" +   column.Name + " "  + column.DisplayDataType + comma ;
+         @declaration<br />
+     }
+ }
+as<br />
+Insert @Model.Name<br/>
+&nbsp;&nbsp;(@foreach (var column in Model.Columns)
+{
+    if (column.IsIdentity == false)
+    {
+        var comma = (column.Ordinal == Model.Columns.Count) ? ")" : ", ";
+        var colName =  column.Name +  comma;
+        @colName 
+    }
+}<br />
+values<br />
+&nbsp;&nbsp;(@foreach (var column in Model.Columns)
+{
+    if (column.IsIdentity == false)
+    {
+        var comma = (column.Ordinal == Model.Columns.Count) ? ")" : ", ";
+        var value = "@" + column.Name + comma;
+        @value
+    }
+}<br /><br />
+
+SELECT SCOPE_IDENTITY()

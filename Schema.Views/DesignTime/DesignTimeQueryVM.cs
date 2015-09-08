@@ -6,6 +6,13 @@ namespace Schema.Views.DesignTime
 {
     class DesignTimeQueryVM : IQueryVM
     {
+
+        public DesignTimeQueryVM()
+        {
+            ConnectionInfo = new DatabaseConnectionInfo();
+            QueryResult = new QueryResult();
+
+        }
         public string Query { get; set; }
 
         public DatabaseConnectionInfo ConnectionInfo { get; set; }
@@ -19,5 +26,7 @@ namespace Schema.Views.DesignTime
 
         public System.TimeSpan QueryTime { get; set; }
         public ICommand ExportToExcelCommand { get; set; }
+        public ICommand GenerateSnippetCommand { get; set; }
+        public string GeneratedSnippet { get; set; }
     }
 }

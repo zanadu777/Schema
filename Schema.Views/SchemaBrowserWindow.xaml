@@ -10,7 +10,7 @@
         xmlns:dataTypes="clr-namespace:Schema.Common.DataTypes;assembly=Schema.Common"
         mc:Ignorable="d"
         d:DataContext="{x:Static designTime:DesignTimeData.SchemaBrowserVM}"
-        Title="{Binding CurrentDatabase.FriendlyName}" Height="369" Width="600" Icon="Resources/db.ico"
+        Title="{Binding CurrentDatabase.FriendlyName}" Height="369" Width="800" Icon="Resources/db.ico"
        >
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -218,8 +218,9 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="160"/>
                 <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="6"/>
                 <ColumnDefinition Width="240*"/>
-                
             </Grid.ColumnDefinitions>
             <ListBox x:Name="lstObjects" ItemsSource="{Binding SchemaObjects}" Grid.Column="0" 
                     ItemTemplateSelector="{StaticResource SchemaObjectTemplateSelector}" 
@@ -228,12 +229,29 @@
                 <ListBox.ContextMenu>
                     <cm:CMenu >
                         <MenuItem Header="Generate Execution Code" Command="{Binding GenerateDataAccessCodeCommand}"
+                                  
                                   cm:CMenu.SelectionMode="Single"  cm:CMenu.SelectionMismatch="Disable"
                                   cm:CMenu.VisibleFor="dataTypes:DbStoredProc"/>
 
+                        <MenuItem Header="Stored Procedure Insert Nonquery " Command="{Binding GeneratCodeCommand}"
+                                  cm:CMenu.Key="GenerateExecuteNonQuery"
+                                  cm:CMenu.SelectionMode="Single"  cm:CMenu.SelectionMismatch="Disable"
+                                  cm:CMenu.VisibleFor="dataTypes:DbTable"/>
+                        
+                        
+                        
                         <MenuItem Header="Generate Table Sql..." Command="{Binding ShowGenerateTableSqlWindowCommand}"
                                   cm:CMenu.SelectionMode="Single"  cm:CMenu.SelectionMismatch="Disable"
                                   cm:CMenu.VisibleFor="dataTypes:DbTable"/>
+
+
+                        <MenuItem Header="Create json" Command="{Binding GetJsonCommand}"
+                                  cm:CMenu.SelectionMode="Single"  cm:CMenu.SelectionMismatch="Disable"
+                                  />
+
+                        <MenuItem Header="Generate Code" Command="{Binding ShowCodeGenerationWindowCommand}"
+                                  cm:CMenu.SelectionMode="Single"  cm:CMenu.SelectionMismatch="Disable"
+                                  />
                     </cm:CMenu>
                 </ListBox.ContextMenu>
             </ListBox>
@@ -243,6 +261,7 @@
                             ContentTemplateSelector="{StaticResource SchemaObjectDetailsSelector}">
 
             </ContentControl>
+            <TextBox Grid.Column="4" Text="{Binding GeneratedText}"/>
             
         </Grid>
     </DockPanel>

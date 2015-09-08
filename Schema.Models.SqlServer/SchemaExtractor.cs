@@ -78,16 +78,17 @@ where type in ('U')";
                         if (!columns.ContainsKey(fullTableName))
                             columns.Add(fullTableName, new List<DbColumn>());
 
-                        columns[fullTableName].Add(new DbColumn
-                        {
-                            Name = reader.GetString(columnNamePos),
-                            IsNullable = reader.GetBoolean(is_nullablePos),
-                            IsIdentity = reader.GetBoolean(is_identityPos),
-                            DataType = reader.GetString(datatypePos),
-                            DisplayDataTypeCalculator = DisplayType,
-                            MaxLength = (Int16)reader.GetValue(max_lengthPos),
-                            Ordinal= reader.GetInt32( ordinalPos)
-                        });
+                        var col = new DbColumn
+                                  {
+                                      Name = reader.GetString(columnNamePos),
+                                      IsNullable = reader.GetBoolean(is_nullablePos),
+                                      IsIdentity = reader.GetBoolean(is_identityPos),
+                                      DataType = reader.GetString(datatypePos),
+                                      MaxLength = (Int16) reader.GetValue(max_lengthPos),
+                                      Ordinal = reader.GetInt32(ordinalPos)
+                                  };
+                        col.DisplayDataType = DisplayType(col);
+                        columns[fullTableName].Add(col);
                     }
                 }
             }
@@ -160,16 +161,16 @@ and o.type= 'V'";
 
                         if (!columns.ContainsKey(fullTableName))
                             columns.Add(fullTableName, new List<DbColumn>());
-
-                        columns[fullTableName].Add(new DbColumn
-                        {
-                            Name = reader.GetString(columnNamePos),
-                            IsNullable = reader.GetBoolean(is_nullablePos),
-                            DataType = reader.GetString(datatypePos),
-                            DisplayDataTypeCalculator = DisplayType,
-                            MaxLength = (Int16)reader.GetValue(max_lengthPos),
-                            Ordinal= reader.GetInt32(ordinalPos)
-                        });
+                        var col = new DbColumn
+                                  {
+                                      Name = reader.GetString(columnNamePos),
+                                      IsNullable = reader.GetBoolean(is_nullablePos),
+                                      DataType = reader.GetString(datatypePos),
+                                      MaxLength = (Int16) reader.GetValue(max_lengthPos),
+                                      Ordinal = reader.GetInt32(ordinalPos)
+                                  };
+                        col.DisplayDataType = DisplayType(col);
+                        columns[fullTableName].Add(col);
                     }
                 }
             }

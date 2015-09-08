@@ -19,6 +19,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schema.Models.MySql", "Sche
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseModels", "DatabaseModels", "{F0AD9B23-E3EF-4375-BB38-233162FCFC26}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeGeneration", "CodeGeneration", "{BF92315B-B397-4D90-864F-16EAB75F0474}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schema.CodeGeneration.RazorEngine", "Schema.CodeGeneration.RazorEngine\Schema.CodeGeneration.RazorEngine.csproj", "{558D03FD-5BF5-4FE5-AECB-3C9ACB6C8E6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplateTester", "TemplateTester\TemplateTester.csproj", "{CC1EBFBC-1C25-4A3A-BFEE-52CBB87E2B11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +59,14 @@ Global
 		{2467B276-EA98-4B6C-BF56-CC59D972590A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2467B276-EA98-4B6C-BF56-CC59D972590A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2467B276-EA98-4B6C-BF56-CC59D972590A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{558D03FD-5BF5-4FE5-AECB-3C9ACB6C8E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{558D03FD-5BF5-4FE5-AECB-3C9ACB6C8E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{558D03FD-5BF5-4FE5-AECB-3C9ACB6C8E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{558D03FD-5BF5-4FE5-AECB-3C9ACB6C8E6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC1EBFBC-1C25-4A3A-BFEE-52CBB87E2B11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC1EBFBC-1C25-4A3A-BFEE-52CBB87E2B11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC1EBFBC-1C25-4A3A-BFEE-52CBB87E2B11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC1EBFBC-1C25-4A3A-BFEE-52CBB87E2B11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,5 +74,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8C127482-62F2-4E99-8DF0-FA878A1BD426} = {F0AD9B23-E3EF-4375-BB38-233162FCFC26}
 		{2467B276-EA98-4B6C-BF56-CC59D972590A} = {F0AD9B23-E3EF-4375-BB38-233162FCFC26}
+		{558D03FD-5BF5-4FE5-AECB-3C9ACB6C8E6E} = {BF92315B-B397-4D90-864F-16EAB75F0474}
+		{CC1EBFBC-1C25-4A3A-BFEE-52CBB87E2B11} = {BF92315B-B397-4D90-864F-16EAB75F0474}
 	EndGlobalSection
 EndGlobal

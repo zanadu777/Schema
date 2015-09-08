@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Schema.Common.DataTypes
 {
@@ -25,15 +21,10 @@ namespace Schema.Common.DataTypes
 
         public bool IsReferencedPrimaryKey { get; set; }
 
-        public string DisplayDataType
-        {
-            get
-            {
-                return DisplayDataTypeCalculator != null ? DisplayDataTypeCalculator(this) : DataType;
-            }
-        }
+        public DbColumn() { }
 
-        public Func<DbColumn, string> DisplayDataTypeCalculator { get; set; }
+
+        public string DisplayDataType { get; set; }
 
         public EKeyStatus  KeyStatus
         {

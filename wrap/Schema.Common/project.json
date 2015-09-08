@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net451": {
+      "wrappedProject": "../../Schema.Common/Schema.Common.csproj",
+      "bin": {
+        "assembly": "../../Schema.Common/obj/{configuration}/Schema.Common.dll",
+        "pdb": "../../Schema.Common/obj/{configuration}/Schema.Common.pdb"
+      },
+      "dependencies": {
+        "Microsoft.VisualStudio.DebuggerVisualizers": "1.0.0-*"
+      }
+    }
+  }
+}

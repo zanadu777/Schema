@@ -1,0 +1,47 @@
+﻿@using Errata.Text
+@using Schema.Common.DataTypes
+@model Schema.Common.DataTypes.DbTable
+
+@{
+    
+}
+
+<h2> Call Insert non-query function</h2>
+
+public int Insert@(Model.Name)(@(Model.Name) @Model.Name.FirstToLower() ) <br/>
+{<br />
+
+ &nbsp;var cstring = ConfigurationManager.ConnectionStrings["FlashCard"].ConnectionString;<br />
+
+ &nbsp;using (var conn = new SqlConnection(cstring))<br />
+ &nbsp;{<br />
+ &nbsp; &nbsp;conn.Open();<br />
+ &nbsp; &nbsp;using (var cmd = new SqlCommand())<br />
+ &nbsp; &nbsp;{<br />
+ &nbsp; &nbsp; &nbsp;cmd.Connection = conn;<br />
+ &nbsp; &nbsp; &nbsp;cmd.CommandType = CommandType.StoredProcedure;<br />
+ &nbsp; &nbsp; &nbsp;cmd.CommandText = "Insert@(Model.Name)";<br/>
+
+
+@foreach (DbColumn column in Model.Columns)
+{
+    if (column.IsIdentity == false)
+    {
+        var param = String.Format("cmd.Parameters.Add(new SqlParameter(\"@{0}\", {1}));", column.Name , Model.Name.FirstToLower() + "." + column.Name) ;
+
+        @(param)<br />
+    }
+}<br />
+ 
+ &nbsp; &nbsp; &nbsp;try<br />
+ &nbsp; &nbsp; &nbsp;{<br />
+ &nbsp; &nbsp; &nbsp; &nbsp;retun cmd.ExecuteNonQuery();<br />
+ &nbsp; &nbsp; &nbsp; }<br />
+ &nbsp; &nbsp; &nbsp; &nbsp;catch (Exception ex)<br />
+ &nbsp; &nbsp; &nbsp;{<br />
+ &nbsp; &nbsp; &nbsp; &nbsp; Debug.WriteLine(ex.Message);<br />
+ &nbsp; &nbsp; &nbsp; }<br />
+ &nbsp;  &nbsp; }<br />
+ &nbsp; }<br />
+
+}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,18 +25,19 @@ namespace Schema.Views.ContextMenu
                     var menuItem = item as MenuItem;
                     if (menuItem != null)
                     {
-                        var visibleFor =(Type)menuItem.GetValue(VisibleForProperty);
-                        
+                        var visibleFor = (Type)menuItem.GetValue(VisibleForProperty);
+
 
                         var selectionMode = (ESelectionMode)menuItem.GetValue(SelectionModeProperty);
                         var mismatchAction = (ESelectionMismatchAction)menuItem.GetValue(SelectionMismatchProperty);
+                        var key = (string)menuItem.GetValue(KeyProperty);
 
                         switch (selectionMode)
                         {
                             case ESelectionMode.None:
                                 break;
                             case ESelectionMode.Single:
-                                if (listBox.SelectedItem.GetType() != visibleFor)
+                                if (visibleFor != null && listBox.SelectedItem.GetType() != visibleFor)
                                 {
                                     menuItem.Visibility = Visibility.Collapsed;
                                 }
@@ -43,8 +45,11 @@ namespace Schema.Views.ContextMenu
                                 {
                                     if (listBox.SelectedItems.Count == 1)
                                     {
+                                        if (string.IsNullOrEmpty(key))
+                                            menuItem.CommandParameter = listBox.SelectedItem;
+                                        else
+                                            menuItem.CommandParameter = new KeyValuePair<string, object>(key, listBox.SelectedItem);
 
-                                        menuItem.CommandParameter = listBox.SelectedItem;
                                         menuItem.Visibility = Visibility.Visible;
                                         menuItem.IsEnabled = true;
                                     }
@@ -114,6 +119,22 @@ namespace Schema.Views.ContextMenu
         public static Type GetVisibleFor(DependencyObject element)
         {
             return (Type)element.GetValue(VisibleForProperty);
+        }
+        #endregion
+
+        #region Key
+
+        public static readonly DependencyProperty KeyProperty = DependencyProperty.RegisterAttached(
+            "Key", typeof(String), typeof(CMenu), new PropertyMetadata(default(object)));
+
+        public static void SetKey(DependencyObject element, String value)
+        {
+            element.SetValue(VisibleForProperty, value);
+        }
+
+        public static string GetKey(DependencyObject element)
+        {
+            return (string)element.GetValue(VisibleForProperty);
         }
         #endregion
     }

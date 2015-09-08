@@ -72,32 +72,17 @@ order by TABLE_NAME , ORDINAL_POSITION
 
                         if (!columns.ContainsKey(fullTableName))
                             columns.Add(fullTableName, new List<DbColumn>());
-                        //try {
-                        //    var dbcol = new DbColumn();
-                        //    dbcol.Name = reader.GetString(columnNamePos);
-                        //    dbcol.IsNullable = (reader.GetString(is_nullablePos) == "YES");
-                        //    //IsIdentity = reader.GetBoolean(is_identityPos),
-                        //    dbcol.DataType = reader.GetString(datatypePos);
-                        //    dbcol.DisplayDataTypeCalculator = DisplayType;
-                            
-                        //    var max = GetMaxLength(reader.GetValue(max_lengthPos));
 
-                        //    Debug.WriteLine(max);
-                        //    dbcol.MaxLength = max;
-                        //}
-                        //catch(Exception ex)
-                        //{
-                        //    Debug.WriteLine(ex.Message);
-                        //}
-                        columns[fullTableName].Add(new DbColumn
-                        {
-                            Name = reader.GetString(columnNamePos),
-                            IsNullable = (reader.GetString(is_nullablePos)=="YES"),
-                            //IsIdentity = reader.GetBoolean(is_identityPos),
-                            DataType = reader.GetString(datatypePos),
-                            DisplayDataTypeCalculator = DisplayType,
-                            MaxLength = GetMaxLength(reader.GetValue(max_lengthPos))
-                        });
+                        var col = new DbColumn
+                                  {
+                                      Name = reader.GetString(columnNamePos),
+                                      IsNullable = (reader.GetString(is_nullablePos) == "YES"),
+                                      //IsIdentity = reader.GetBoolean(is_identityPos),
+                                      DataType = reader.GetString(datatypePos),
+                                      MaxLength = GetMaxLength(reader.GetValue(max_lengthPos))
+                                  };
+                        col.DisplayDataType = DisplayType(col);
+                        columns[fullTableName].Add(col);
                     }
                 }
             }

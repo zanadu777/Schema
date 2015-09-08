@@ -2,14 +2,17 @@
 using System.ComponentModel;
 using System.Data;
 using System.IO;
+using System.Text;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Errata.Text;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Win32;
 using OfficeOpenXml;
 using Schema.Common.DataTypes;
 using Schema.Common.Interfaces;
+using Schema.ViewModels.ExtensionMethods;
 
 namespace Schema.ViewModels
 {
@@ -30,6 +33,7 @@ namespace Schema.ViewModels
             model = iQueryModel;
             ExecuteQueryCommand = new DelegateCommand<string>(ExecuteQuery);
             ExportToExcelCommand = new DelegateCommand(ExportToExcel);
+            GenerateSnippetCommand = new DelegateCommand<string>(GenerateSnippet);
 
 
             queryTimer = new DispatcherTimer();
@@ -40,6 +44,22 @@ namespace Schema.ViewModels
             queryWorker.DoWork += QueryWorker_DoWork;
             queryWorker.RunWorkerCompleted += QueryWorker_RunWorkerCompleted;
             queryWorker.WorkerReportsProgress = true;
+        }
+
+        private void GenerateSnippet(string obj)
+        {
+            switch (obj)
+            {
+                case "DataReaderAccess":
+                    StringBuilder sb = new StringBuilder();
+                    foreach (DataColumn  column in queryResult.DataTable.Columns)
+                    {
+                        sb.AppendLine(string.Format("var {0}Pos = reader.GetOrdinal(\"{1}\");", column.ColumnName.FirstToLower(), column.ColumnName ));
+                    }
+                    GeneratedSnippet += sb.ToString();
+                    break;
+            }
+           
         }
 
         private void ExportToExcel()
@@ -85,6 +105,8 @@ namespace Schema.ViewModels
         }
 
         private bool isqueryRunning;
+        private string generatedSnippet;
+
         void QueryTimer_Tick(object sender, EventArgs e)
         {
             QueryTime = QueryTime.Add(new TimeSpan(0, 0, 1));
@@ -167,5 +189,16 @@ namespace Schema.ViewModels
         }
 
         public ICommand ExportToExcelCommand { get; set; }
+        public ICommand GenerateSnippetCommand { get; set; }
+
+        public string GeneratedSnippet
+        {
+            get { return generatedSnippet; }
+            set
+            {
+                SetProperty(ref generatedSnippet, value);
+                OnPropertyChanged(() => GeneratedSnippet);
+            }
+        }
     }
 }

@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Schema.Views</RootNamespace>
     <AssemblyName>Schema.Views</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +53,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGenerationWindow.xaml.cs">
+      <DependentUpon>CodeGenerationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConnectionManagerWindow.xaml.cs">
       <DependentUpon>ConnectionManagerWindow.xaml</DependentUpon>
     </Compile>
@@ -60,6 +64,7 @@
     <Compile Include="ContextMenu\ESelectionMode.cs" />
     <Compile Include="Converters\EConnectivityStatusToIconConverter.cs" />
     <Compile Include="Converters\TextSelectionConverter.cs" />
+    <Compile Include="DesignTime\DesignTimeCodeGenerationVm.cs" />
     <Compile Include="DesignTime\DesignTimeConnectionManagerVM.cs" />
     <Compile Include="DesignTime\DesignTimeData.cs" />
     <Compile Include="DesignTime\DesignTimeGenerateTableSqlVm.cs" />
@@ -78,6 +83,10 @@
     <Compile Include="Selectors\SchemaObjectTemplateSelector.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="CodeGenerationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ConnectionManagerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -89,6 +98,10 @@
     <Page Include="QueryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Dictionaries\SchemaObjectDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SchemaBrowserWindow.xaml">
       <SubType>Designer</SubType>

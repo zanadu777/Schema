@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Schema.Common</RootNamespace>
     <AssemblyName>Schema.Common</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,7 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomEventArgs\DbTableEventArgs.cs" />
+    <Compile Include="CustomEventArgs\SchemaObjectEventArgs.cs" />
     <Compile Include="DatabaseTypes.cs" />
+    <Compile Include="DataTypes\CodeGeneration\CodeGenerationKey.cs" />
+    <Compile Include="DataTypes\CodeGeneration\ETemplateType.cs" />
+    <Compile Include="DataTypes\CodeGeneration\Template.cs" />
     <Compile Include="DataTypes\DatabaseConnectionInfo.cs" />
     <Compile Include="DataTypes\DbColumn.cs" />
     <Compile Include="DataTypes\DbForeignKey.cs" />
@@ -60,6 +65,10 @@
     <Compile Include="DataTypes\SchemaObject.cs" />
     <Compile Include="CustomEventArgs\DatabaseConnectionInfoEventArgs.cs" />
     <Compile Include="GlobalData.cs" />
+    <Compile Include="Interfaces\ICodeGenerationModel.cs" />
+    <Compile Include="Interfaces\ICodeGenerationVm.cs" />
+    <Compile Include="Interfaces\ICodeGenerationWindow.cs" />
+    <Compile Include="Interfaces\ICodeGenerator.cs" />
     <Compile Include="Interfaces\IConnectionManagerModel.cs" />
     <Compile Include="Interfaces\IConnectionManagerVM.cs" />
     <Compile Include="Interfaces\IConnectionManagerWindow.cs" />

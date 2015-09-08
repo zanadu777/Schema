@@ -84,6 +84,22 @@ namespace Schema.Views.DesignTime
         {
             get { return new DbTable(); }
         }
+
+        public static ICodeGenerationVm CodeGenerationVm
+        {
+            get
+            {
+                var vm =  new DesignTimeCodeGenerationVm();
+
+                var table = new DbTable();
+                table.Name = "Objects";
+                table.Columns.Add(new DbColumn { Name = "Id", DataType = "int", IsIdentity = true, IsInPrimaryKey = true });
+
+                vm.SchemaObject = table;
+
+                return vm;
+            }
+        }
     }
     }
  

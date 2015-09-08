@@ -1,0 +1,43 @@
+﻿@model Schema.Common.DataTypes.DbTable
+
+@{
+    ViewBag.Title = "title";
+   
+}
+
+<h2>Update Stored Procedure</h2>
+
+<h2>Update Stored Procedure</h2>
+
+Create Procedure Update@(Model.Name) <br />
+
+ (@foreach (var column in Model.Columns)
+ {
+     if (column.IsIdentity == false)
+     {
+         var comma = (column.Ordinal == Model.Columns.Count) ? ")" : ",";
+         var declaration = "@" + column.Name + " " + column.DisplayDataType + comma;
+        @declaration<br />
+     }
+ }
+as<br />
+Insert @Model.Name<br />
+&nbsp;&nbsp;(@foreach (var column in Model.Columns)
+{
+    if (column.IsIdentity == false)
+    {
+        var comma = (column.Ordinal == Model.Columns.Count) ? ")" : ", ";
+        var colName = column.Name + comma;
+        @colName
+    }
+}<br />
+values<br />
+&nbsp;&nbsp;(@foreach (var column in Model.Columns)
+{
+    if (column.IsIdentity == false)
+    {
+        var comma = (column.Ordinal == Model.Columns.Count) ? ")" : ", ";
+        var value = "@" + column.Name + comma;
+        @value
+    }
+}

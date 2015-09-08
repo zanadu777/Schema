@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Schema.Common.CustomEventArgs;
 using Schema.Common.DataTypes;
@@ -25,6 +20,11 @@ namespace Schema.Common.Interfaces
 
         event EventHandler<DatabaseConnectionInfoEventArgs>  OnShowQueryWindow;
 
+
+        ICommand ShowCodeGenerationWindowCommand { get; }
+
+        event EventHandler<SchemaObjectEventArgs> OnShowCodeGenerationWindow;
+
         ICommand ShowConnectionManagerWindowCommand { get; }
 
         event EventHandler<DatabaseConnectionInfoEventArgs> OnShowConnectionManagerWindow;
@@ -36,5 +36,11 @@ namespace Schema.Common.Interfaces
         ICommand ShowGenerateTableSqlWindowCommand { get; set; }
 
         event EventHandler<DbTableEventArgs> OnShowGenerateTableSqlWindow;
+
+        ICommand GeneratCodeCommand { get; set; }
+
+        string GeneratedText { get; set; }
+
+        ICommand GetJsonCommand { get; set; }
     }
 }

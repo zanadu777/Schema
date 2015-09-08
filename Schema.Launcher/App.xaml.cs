@@ -71,11 +71,20 @@ namespace Schema.Launcher
         void OnShowSchemaBrowserWindow(object sender, DatabaseConnectionInfoEventArgs e)
         {
             var model =   GetSchemaBrowserModel(e.ConnectionInfo );
-            ISchemaBrowserVM viewModel = new SchemaBrowserVM(model, e.ConnectionInfo);
+            ISchemaBrowserVM viewModel = new SchemaBrowserVM(model,new CodeGeneration.RazorEngine.Generator() , e.ConnectionInfo);
             viewModel.OnShowQueryWindow += OnShowQueryWindow;
             viewModel.OnShowConnectionManagerWindow += OnShowConnectionManagerWindow;
             viewModel.OnShowGenerateTableSqlWindow += ShowGenerateTableSqlWindow;
+            viewModel.OnShowCodeGenerationWindow += ShowCodeGenerationWindow;
             var window = new SchemaBrowserWindow(viewModel);
+            window.Show();
+        }
+
+        private void ShowCodeGenerationWindow(object sender, SchemaObjectEventArgs e)
+        {
+            var viewmodel = new CodeGenerationVm();
+            viewmodel.SchemaObject = e.SchemaObject;
+            var window = new CodeGenerationWindow(viewmodel);
             window.Show();
         }
 

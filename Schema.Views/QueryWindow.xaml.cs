@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Xml;
 using ICSharpCode.AvalonEdit.Highlighting;
 using Schema.Common.Interfaces;
+using Schema.Views.DesignTime;
 
 namespace Schema.Views
 {

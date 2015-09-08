@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Schema.Launcher</RootNamespace>
     <AssemblyName>Schema.Launcher</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -120,6 +121,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Schema.CodeGeneration.RazorEngine\Schema.CodeGeneration.RazorEngine.csproj">
+      <Project>{558d03fd-5bf5-4fe5-aecb-3c9acb6c8e6e}</Project>
+      <Name>Schema.CodeGeneration.RazorEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Schema.Common\Schema.Common.csproj">
       <Project>{c0afc76f-04c5-464f-a6a0-c79eaf1eab6c}</Project>
       <Name>Schema.Common</Name>
