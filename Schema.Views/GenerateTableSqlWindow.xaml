@@ -1,5 +1,5 @@
 ﻿<Window x:Class="Schema.Views.GenerateTableSqlWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -24,7 +24,10 @@
                     <DataGridTextColumn Header ="DataType" Binding="{Binding DisplayDataType}" />
                 </DataGrid.Columns>
             </DataGrid>
-            <Button x:Name="btGenerate" Content="Generate" HorizontalAlignment="Right" Margin="390,10,8,0" VerticalAlignment="Top" Width="75"/>
+            <Button x:Name="btGenerate" Content="Generate" HorizontalAlignment="Right" Margin="390,10,8,0" VerticalAlignment="Top" Width="75"
+                    Command="{Binding GenerateSqlCommand}"/>
+            
+            <TextBox Grid.Row="2" Text="{Binding GenratedSql}" />
 
         </Grid>
     </DockPanel>

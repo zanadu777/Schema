@@ -67,9 +67,13 @@
     <Compile Include="DesignTime\DesignTimeCodeGenerationVm.cs" />
     <Compile Include="DesignTime\DesignTimeConnectionManagerVM.cs" />
     <Compile Include="DesignTime\DesignTimeData.cs" />
+    <Compile Include="DesignTime\DesignTimeGenerateStoredProcVm.cs" />
     <Compile Include="DesignTime\DesignTimeGenerateTableSqlVm.cs" />
     <Compile Include="DesignTime\DesignTimeQueryVM.cs" />
     <Compile Include="DesignTime\DesignTimeSchemaBrowserVM.cs" />
+    <Compile Include="GenerateStoredProcWindow.xaml.cs">
+      <DependentUpon>GenerateStoredProcWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GenerateTableSqlWindow.xaml.cs">
       <DependentUpon>GenerateTableSqlWindow.xaml</DependentUpon>
     </Compile>
@@ -88,6 +92,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ConnectionManagerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GenerateStoredProcWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

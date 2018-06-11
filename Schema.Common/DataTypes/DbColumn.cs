@@ -13,6 +13,9 @@ namespace Schema.Common.DataTypes
 
         public bool IsIdentity { get; set; }
 
+        public int IdentityStep { get; set; }
+        public int IdentitySeed { get; set; }
+
         public bool IsNullable { get; set; }
 
         public bool IsInPrimaryKey { get; set; }

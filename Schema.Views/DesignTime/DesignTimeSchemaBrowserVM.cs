@@ -40,6 +40,8 @@ namespace Schema.Views.DesignTime
         public ICommand GenerateDataAccessCodeCommand { get; set; }
         public ICommand ShowGenerateTableSqlWindowCommand { get; set; }
         public event EventHandler<DbTableEventArgs> OnShowGenerateTableSqlWindow;
+        public ICommand ShowGenerateStoredProcWindowCommand { get; set; }
+        public event EventHandler<DbStoredProcEventArgs> OnShowGenerateStoredProcWindow;
         public ICommand GeneratCodeCommand { get; set; }
         public string GeneratedText { get; set; }
         public ICommand GetJsonCommand { get; set; }

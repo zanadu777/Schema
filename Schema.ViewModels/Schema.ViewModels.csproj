@@ -95,6 +95,7 @@
     <Compile Include="ExtensionMethods\EventHandlerExtensions.cs" />
     <Compile Include="ExtensionMethods\IListExtensions.cs" />
     <Compile Include="ExtensionMethods\StringExtensions.cs" />
+    <Compile Include="GenerateStoredProcVm.cs" />
     <Compile Include="GenerateTableSqlVm.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

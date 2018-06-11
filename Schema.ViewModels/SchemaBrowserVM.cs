@@ -27,6 +27,7 @@ namespace Schema.ViewModels
         private string generatedText;
         private ICommand getJsonCommand;
         private ICommand showCodeGenerationWindowCommand;
+        private ICommand showGenerateStoredProcWindowCommand;
 
         public SchemaBrowserVM(ISchemaBrowserModel iSchemaBrowserModel, ICodeGenerator iCodeGenerator, DatabaseConnectionInfo databaseConnectionInfo)
         {
@@ -124,6 +125,14 @@ namespace Schema.ViewModels
         }
 
         public event EventHandler<DbTableEventArgs> OnShowGenerateTableSqlWindow;
+
+        public ICommand ShowGenerateStoredProcWindowCommand
+        {
+            get { return showGenerateStoredProcWindowCommand ?? (showGenerateStoredProcWindowCommand = new DelegateCommand<DbStoredProc>(x => OnShowGenerateStoredProcWindow.Raise(this, new DbStoredProcEventArgs(x)))); }
+            set { showGenerateStoredProcWindowCommand = value; }
+        }
+
+        public event EventHandler<DbStoredProcEventArgs> OnShowGenerateStoredProcWindow;
         public ICommand GeneratCodeCommand { get; set; }
 
         public string GeneratedText

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Schema.Common.Collections;
 using Schema.Common.DataTypes;
 using Schema.Common.Interfaces;
 
@@ -23,6 +24,7 @@ namespace Schema.Models.SqlServer
             AddColumns(tables, columns);
             var primaryKeyColumns = GetPrimaryKeyColumns(connectionInfo);
             AddPrimaryKeys(tables, primaryKeyColumns);
+            AddTableCreationSql(tables);
             var views = extractor.GetViews(connectionInfo);
             var viewColumns = extractor.GetViewColumns(connectionInfo);
             AddViewColumns(views, viewColumns);
@@ -45,6 +47,28 @@ namespace Schema.Models.SqlServer
                                select t;
             foreach (var t in sortedTables)
                 objectList.Add(t);
+        }
+
+        private void AddTableCreationSql(Dictionary<string, DbTable> tables)
+        {
+            foreach (var table in tables.Values)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine($"Create table {table.Name}(");
+                var columns = new RemainderAndLast<DbColumn>(table.Columns);
+                foreach (var column in columns.Remainder)
+                {
+                    var identity = (column.IsIdentity) ? " IDENTITY(1,1) " : " ";
+                    var isNull = (column.IsNullable) ? "NULL" : "NOT Null";
+                    sb.AppendLine($"{column.Name} {column.DataType}{identity}{isNull},");
+                }
+
+                var identity2 = (columns.Last.IsIdentity) ? " IDENTITY(1,1) " : " ";
+                var isNull2 = (columns.Last.IsNullable) ? "NULL" : "NOT Null";
+                sb.AppendLine($"{columns.Last.Name} {columns.Last.DataType}{identity2}{isNull2}");
+                sb.AppendLine(")");
+                table.Definition = sb.ToString();
+            }
         }
 
         private void AddParametersToStoredProcedures(Dictionary<string, DbStoredProc> procedures, Dictionary<string, List<DbParameter>> parameters)
@@ -112,8 +136,10 @@ namespace Schema.Models.SqlServer
                 {
                     var col = (from DbColumn c in currentTable.Columns
                                where c.Name == pk
-                               select c).First();
-                    col.IsInPrimaryKey = true;
+                               select c).FirstOrDefault();
+
+                    if (col != null)
+                        col.IsInPrimaryKey = true;
                 }
             }
         }

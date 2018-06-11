@@ -44,6 +44,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\FirstAndRemainder.cs" />
+    <Compile Include="Collections\RemainderAndLast.cs" />
+    <Compile Include="CustomEventArgs\DbStoredProcEventArgs.cs" />
     <Compile Include="CustomEventArgs\DbTableEventArgs.cs" />
     <Compile Include="CustomEventArgs\SchemaObjectEventArgs.cs" />
     <Compile Include="DatabaseTypes.cs" />
@@ -62,8 +65,10 @@
     <Compile Include="DataTypes\EKeyStatus.cs" />
     <Compile Include="DataTypes\ESchemaObjectType.cs" />
     <Compile Include="DataTypes\QueryResult.cs" />
+    <Compile Include="DataTypes\ScalarFunction.cs" />
     <Compile Include="DataTypes\SchemaObject.cs" />
     <Compile Include="CustomEventArgs\DatabaseConnectionInfoEventArgs.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GlobalData.cs" />
     <Compile Include="Interfaces\ICodeGenerationModel.cs" />
     <Compile Include="Interfaces\ICodeGenerationVm.cs" />
@@ -73,6 +78,9 @@
     <Compile Include="Interfaces\IConnectionManagerVM.cs" />
     <Compile Include="Interfaces\IConnectionManagerWindow.cs" />
     <Compile Include="Interfaces\IConnectivityTester.cs" />
+    <Compile Include="Interfaces\IGenerateStoredProcModel.cs" />
+    <Compile Include="Interfaces\IGenerateStoredProcVm.cs" />
+    <Compile Include="Interfaces\IGenerateStoredProcWindow.cs" />
     <Compile Include="Interfaces\IGenerateTableSqlModel.cs" />
     <Compile Include="Interfaces\IGenerateTableSqlWindow.cs" />
     <Compile Include="Interfaces\IGenerateTableSqlVm.cs" />
@@ -84,6 +92,7 @@
     <Compile Include="Interfaces\ISchemaBrowserModel.cs" />
     <Compile Include="Interfaces\ISchemaBrowserVM.cs" />
     <Compile Include="Interfaces\ISchemaExtractor.cs" />
+    <Compile Include="Interfaces\ITemplateSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Visualizers\DbForeignKeyVisualizer.cs" />
     <Compile Include="Visualizers\DbForiegnKeyVisualizerForm.cs">
@@ -100,9 +109,7 @@
       <DependentUpon>DbTableVisualizerForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ExtensionMethods\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Visualizers\DbForiegnKeyVisualizerForm.resx">
       <DependentUpon>DbForiegnKeyVisualizerForm.cs</DependentUpon>

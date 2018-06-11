@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using Schema.Common.DataTypes;
 using Schema.Common.Interfaces;
 
@@ -52,10 +46,10 @@ namespace Schema.Views.DesignTime
             {
                 var vm = new DesignTimeConnectionManagerVM();
                 vm.Connections.Add(new DatabaseConnectionInfo
-                                   {
-                                       FriendlyName = "Mercury FlashCard",
-                                       ConnectionString = "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"
-                                   });
+                {
+                    FriendlyName = "Mercury FlashCard",
+                    ConnectionString = "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"
+                });
                 return vm;
             }
         }
@@ -68,7 +62,7 @@ namespace Schema.Views.DesignTime
                 var vm = new DesignTimeGenerateTableSqlVm();
                 var table = new DbTable();
                 table.Name = "Objects";
-                table.Columns.Add( new DbColumn {Name="Id", DataType="int", IsIdentity = true,IsInPrimaryKey = true});
+                table.Columns.Add(new DbColumn { Name = "Id", DataType = "int", IsIdentity = true, IsInPrimaryKey = true });
                 vm.Table = table;
                 return vm;
             }
@@ -89,7 +83,7 @@ namespace Schema.Views.DesignTime
         {
             get
             {
-                var vm =  new DesignTimeCodeGenerationVm();
+                var vm = new DesignTimeCodeGenerationVm();
 
                 var table = new DbTable();
                 table.Name = "Objects";
@@ -100,6 +94,16 @@ namespace Schema.Views.DesignTime
                 return vm;
             }
         }
+
+
+        public static IGenerateStoredProcVm GenerateStoredProcVm
+        {
+            get
+            {
+               var vm = new DesignTimeGenerateStoredProcVm();
+                return vm;
+            }
+        }
     }
-    }
- 
+}
+

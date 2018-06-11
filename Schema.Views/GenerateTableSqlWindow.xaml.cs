@@ -27,5 +27,7 @@ namespace Schema.Views
             this.DataContext = viewModel;
             InitializeComponent();
         }
+
+    
     }
 }

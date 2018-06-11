@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
@@ -50,10 +51,13 @@ where type in ('U')";
         public Dictionary<string, List<DbColumn>> GetTableColumns(DatabaseConnectionInfo connectionInfo)
         {
             var columns = new Dictionary<string, List<DbColumn>>();
-            var sql = @"select SCHEMA_NAME(so.schema_id) + '.'+ so.name as fullTableName ,c.name as columnName,c.column_id as ordinal, c.is_nullable , c.is_identity, c.is_computed  ,TYPE_NAME(c.system_type_id) as datatype,c.max_length, c.precision
+            var sql = @"  select SCHEMA_NAME(so.schema_id) + '.'+ so.name as fullTableName ,c.name as columnName,c.column_id as ordinal, c.is_nullable ,
+   c.is_identity, ISNULL(i.seed_value,0) as Seed, ISNULL(i.increment_value,0)  as Step,
+   c.is_computed  ,TYPE_NAME(c.system_type_id) as datatype,c.max_length, c.precision
   from sys.columns c 
  inner join sys.objects so on so.object_id = c.object_id
- where so.type in ('U')
+ left outer Join sys.identity_columns i  on c.object_id = i.object_id
+ where so.type in ('U') 
  order by so.object_id, c.column_id";
 
             using (var conn = new SqlConnection(connectionInfo.ConnectionString))
@@ -68,6 +72,8 @@ where type in ('U')";
                     var columnNamePos = reader.GetOrdinal("columnName");
                     var is_nullablePos = reader.GetOrdinal("is_nullable");
                     var is_identityPos = reader.GetOrdinal("is_identity");
+                    var seedPos = reader.GetOrdinal("Seed");
+                    var stepPos = reader.GetOrdinal("Step");
                     var datatypePos = reader.GetOrdinal("datatype");
                     var max_lengthPos = reader.GetOrdinal("max_length");
                     var ordinalPos = reader.GetOrdinal("ordinal");
@@ -77,18 +83,26 @@ where type in ('U')";
 
                         if (!columns.ContainsKey(fullTableName))
                             columns.Add(fullTableName, new List<DbColumn>());
-
-                        var col = new DbColumn
-                                  {
-                                      Name = reader.GetString(columnNamePos),
-                                      IsNullable = reader.GetBoolean(is_nullablePos),
-                                      IsIdentity = reader.GetBoolean(is_identityPos),
-                                      DataType = reader.GetString(datatypePos),
-                                      MaxLength = (Int16) reader.GetValue(max_lengthPos),
-                                      Ordinal = reader.GetInt32(ordinalPos)
-                                  };
-                        col.DisplayDataType = DisplayType(col);
-                        columns[fullTableName].Add(col);
+                        try
+                        {
+                            var col = new DbColumn
+                            {
+                                Name = reader.GetString(columnNamePos),
+                                IsNullable = reader.GetBoolean(is_nullablePos),
+                                IsIdentity = reader.GetBoolean(is_identityPos),
+                                IdentitySeed = reader.GetInt32(seedPos),
+                                IdentityStep = reader.GetInt32(stepPos),
+                                DataType = reader.GetString(datatypePos),
+                                MaxLength = (Int16)reader.GetValue(max_lengthPos),
+                                Ordinal = reader.GetInt32(ordinalPos)
+                            };
+                            col.DisplayDataType = DisplayType(col);
+                            columns[fullTableName].Add(col);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.Message);
+                        }
                     }
                 }
             }
@@ -162,13 +176,13 @@ and o.type= 'V'";
                         if (!columns.ContainsKey(fullTableName))
                             columns.Add(fullTableName, new List<DbColumn>());
                         var col = new DbColumn
-                                  {
-                                      Name = reader.GetString(columnNamePos),
-                                      IsNullable = reader.GetBoolean(is_nullablePos),
-                                      DataType = reader.GetString(datatypePos),
-                                      MaxLength = (Int16) reader.GetValue(max_lengthPos),
-                                      Ordinal = reader.GetInt32(ordinalPos)
-                                  };
+                        {
+                            Name = reader.GetString(columnNamePos),
+                            IsNullable = reader.GetBoolean(is_nullablePos),
+                            DataType = reader.GetString(datatypePos),
+                            MaxLength = (Int16)reader.GetValue(max_lengthPos),
+                            Ordinal = reader.GetInt32(ordinalPos)
+                        };
                         col.DisplayDataType = DisplayType(col);
                         columns[fullTableName].Add(col);
                     }
@@ -228,7 +242,7 @@ PARAMETER_NAME, ORDINAL_POSITION,   DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, PARAMET
                     var reader = cmd.ExecuteReader();
                     var fullProcedureNamePos = reader.GetOrdinal("Full_Procedure_Name");
                     var ordinalPos = reader.GetOrdinal("ORDINAL_POSITION");
-                    var parameterName  = reader.GetOrdinal("PARAMETER_NAME");
+                    var parameterName = reader.GetOrdinal("PARAMETER_NAME");
                     var datatypePos = reader.GetOrdinal("DATA_TYPE");
                     var max_lengthPos = reader.GetOrdinal("CHARACTER_MAXIMUM_LENGTH");
                     while (reader.Read())
@@ -241,7 +255,7 @@ PARAMETER_NAME, ORDINAL_POSITION,   DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, PARAMET
                         parameters[fullName].Add(new DbParameter
                         {
                             Name = reader.GetString(parameterName),
-                            Ordinal = reader.GetInt32( ordinalPos),
+                            Ordinal = reader.GetInt32(ordinalPos),
                             DataType = reader.GetString(datatypePos),
                             MaxLength = GetMaxLength(reader.GetValue(max_lengthPos))
                         });
@@ -255,10 +269,10 @@ PARAMETER_NAME, ORDINAL_POSITION,   DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, PARAMET
         private int GetMaxLength(object obj)
         {
             if (obj is DBNull)
-            return 0;
+                return 0;
 
             if (obj is int)
-                return (int) obj;
+                return (int)obj;
             else
             {
                 return -2;

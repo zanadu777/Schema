@@ -75,8 +75,17 @@ namespace Schema.Launcher
             viewModel.OnShowQueryWindow += OnShowQueryWindow;
             viewModel.OnShowConnectionManagerWindow += OnShowConnectionManagerWindow;
             viewModel.OnShowGenerateTableSqlWindow += ShowGenerateTableSqlWindow;
+            viewModel.OnShowGenerateStoredProcWindow += ShowGenerateStoredProcWindow;
             viewModel.OnShowCodeGenerationWindow += ShowCodeGenerationWindow;
             var window = new SchemaBrowserWindow(viewModel);
+            window.Show();
+        }
+
+        private void ShowGenerateStoredProcWindow(object sender, DbStoredProcEventArgs e)
+        {
+            var viewModel = new GenerateStoredProcVm();
+            viewModel.StoredProc = e.StoredProc;
+            var window = new GenerateStoredProcWindow();
             window.Show();
         }
 

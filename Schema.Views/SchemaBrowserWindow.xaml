@@ -60,6 +60,7 @@
                 <Grid.RowDefinitions >
                     <RowDefinition Height="23"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Rectangle Fill="#FF303088" />
                 <TextBlock Text ="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,0,0" Foreground="White"/>
@@ -105,6 +106,7 @@
                         <DataGridCheckBoxColumn Binding="{Binding IsNullable}"   Header="Allow Nulls"/>
                     </DataGrid.Columns>
                 </DataGrid>
+                <TextBox  Grid.Row="2" Text ="{Binding Definition}"/>
             </Grid>
         </DataTemplate>
 
@@ -243,6 +245,12 @@
                         <MenuItem Header="Generate Table Sql..." Command="{Binding ShowGenerateTableSqlWindowCommand}"
                                   cm:CMenu.SelectionMode="Single"  cm:CMenu.SelectionMismatch="Disable"
                                   cm:CMenu.VisibleFor="dataTypes:DbTable"/>
+
+
+                        <MenuItem Header="Generate Stored Proc Call..." Command="{Binding ShowGenerateStoredProcWindowCommand}"
+                                  cm:CMenu.SelectionMode="Single"  cm:CMenu.SelectionMismatch="Disable"
+                                  cm:CMenu.VisibleFor="dataTypes:DbStoredProc"/>
+
 
 
                         <MenuItem Header="Create json" Command="{Binding GetJsonCommand}"

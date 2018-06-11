@@ -37,6 +37,14 @@ namespace Schema.Common.Interfaces
 
         event EventHandler<DbTableEventArgs> OnShowGenerateTableSqlWindow;
 
+       
+
+
+        ICommand ShowGenerateStoredProcWindowCommand { get; set; }
+
+        event EventHandler<DbStoredProcEventArgs> OnShowGenerateStoredProcWindow;
+
+
         ICommand GeneratCodeCommand { get; set; }
 
         string GeneratedText { get; set; }
